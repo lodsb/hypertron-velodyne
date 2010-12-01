@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>SawApplet demo</TITLE>
+</HEAD>
+<BODY>
+
+<H1>Simplest possible non-trivial program: a sawtooth generator</H1>
+
+<p>
+<H3 ALIGN="CENTER">Author: Kees van den Doel <A HREF="http://www.cs.ubc.ca/spider/kvdoel/home.html"></A></H3>
+
+<TABLE BORDER="5" CELLPADDING="0" WIDTH="424" BGCOLOR="#C0C0C0">
+<TR>
+<TD>
+
+<APPLET CODE = "SawApplet.class" ARCHIVE = ../jar/jass.jar WIDTH = 50 HEIGHT = 50>
+</APPLET>
+
+</TR>
+</TABLE>
+<BR>
+You should now hear a sawtooth tone A. If it had an off button it woulnd't be
+the shortest progam, sorry. 
+<p>
+Source code:
+<pre>
+import jass.render.*;
+import jass.engine.*;
+//import jass.generators.*;
+
+public class SawApplet extends java.applet.Applet {
+    
+    public void start() {
+
+        float srate = 44100;
+        float freq = 415;
+        int bufferSize = (int)(srate/freq);
+        
+        try {
+            new SourcePlayer(bufferSize,0,srate, new Out(bufferSize) {
+                public void computeBuffer() {
+                    for(int i=0;i<getBufferSize();i++)
+                        buf[i] = i;
+                }
+            }).start();
+        } catch(Exception e) {
+        }
+    }
+}
+
+
+
+
+</pre>
+
+
+</BODY>
+</HTML>
+
+
+

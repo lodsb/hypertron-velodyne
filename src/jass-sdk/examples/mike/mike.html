@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>Mike input processing</TITLE>
+</HEAD>
+<BODY>
+
+<H1>Mike input processing</H1>
+
+<p>
+<H3 ALIGN="CENTER">Author: Kees van den Doel <A HREF="http://www.cs.ubc.ca/~kvdoel"></A></H3>
+
+<TABLE BORDER="5" CELLPADDING="0" WIDTH="424" BGCOLOR="#C0C0C0">
+<TR>
+<TD>
+<APPLET CODE = "MikeApplet.class" ARCHIVE = ../jar/jass.jar WIDTH = 50 HEIGHT = 50>
+</APPLET>
+
+</TR>
+</TABLE>
+<BR>
+
+
+ <p>
+
+If you now connect a mike  to your audiocard this applet will produce a
+1  second  delay   effect.  You  must  have  a   soundcard  capable  of
+simultaneous input  and output and an  OS that supports  this. It works
+fine on my SoundBlaster Live under  Windows 98, but not under Linux. At
+least not  with the Sun  JavaSound implementation because  they turned
+off support for full-duplex. It will presumably work fine with the Tritonus JavaSound
+implementation.
+
+ <p>
+ Source code:
+ <pre>
+import jass.render.*;
+import jass.engine.*;
+import jass.generators.*;
+
+public class MikeApplet extends java.applet.Applet {
+    public void start() {
+        int bufferSize = 64; // this doesn't do much here
+        float srate = 44100;
+        int bufferSizeJavaSound = (int)srate; // 1 sec delay
+        SourcePlayer sp = new SourcePlayer(bufferSize,bufferSizeJavaSound,srate);
+        AudioIn af = new AudioIn(srate,bufferSize,0);
+        try {
+            sp.addSource(af);
+        } catch(SinkIsFullException e) {
+        }
+        sp.start();
+    }        
+}
+</pre>
+
+
+</BODY>
+</HTML>
+
+
+

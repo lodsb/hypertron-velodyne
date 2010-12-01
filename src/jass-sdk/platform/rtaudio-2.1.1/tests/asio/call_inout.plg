@@ -1,0 +1,63 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: call_inout - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\WINDOWS\TEMP\RSPA2E5.TMP" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /I "../../" /D "_DEBUG" /D "WIN32" /D "_CONSOLE" /D "_MBCS" /D "__WINDOWS_ASIO__" /D "__RTAUDIO_DEBUG__" /Fp"Debug/call_inout.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"D:\aakees\ubc\jass-sdk\platform\rtaudio-2.1.1\tests\asio\asio.cpp"
+"D:\aakees\ubc\jass-sdk\platform\rtaudio-2.1.1\tests\asio\asiodrivers.cpp"
+"D:\aakees\ubc\jass-sdk\platform\rtaudio-2.1.1\tests\asio\asiolist.cpp"
+"D:\aakees\ubc\jass-sdk\platform\rtaudio-2.1.1\tests\call_inout.cpp"
+"D:\aakees\ubc\jass-sdk\platform\rtaudio-2.1.1\RtAudio.cpp"
+]
+Creating command line "cl.exe @C:\WINDOWS\TEMP\RSPA2E5.TMP" 
+Creating temporary file "C:\WINDOWS\TEMP\RSPA2E6.TMP" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"call_inout.pdb" /debug /machine:I386 /out:"call_inout.exe" /pdbtype:sept 
+".\Debug\asio.obj"
+".\Debug\asiodrivers.obj"
+".\Debug\asiolist.obj"
+".\Debug\call_inout.obj"
+".\Debug\RtAudio.obj"
+]
+Creating command line "link.exe @C:\WINDOWS\TEMP\RSPA2E6.TMP"
+<h3>Output Window</h3>
+Compiling...
+asio.cpp
+asiodrivers.cpp
+asiolist.cpp
+call_inout.cpp
+d:\aakees\ubc\jass-sdk\platform\rtaudio-2.1.1\tests\call_inout.cpp(100) : warning C4786: 'std::reverse_bidirectional_iterator<std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator,std::pair<int const ,void *>,std::pair<int const ,void *> &,std::pair<int const ,void *> *,int>' : identifier was truncated to '255' characters in the debug information
+d:\aakees\ubc\jass-sdk\platform\rtaudio-2.1.1\tests\call_inout.cpp(100) : warning C4786: 'std::reverse_bidirectional_iterator<std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::const_iterator,std::pair<int const ,void *>,std::pair<int const ,void *> const &,std::pair<int const ,void *> const *,int>' : identifier was truncated to '255' characters in the debug information
+d:\aakees\ubc\jass-sdk\platform\rtaudio-2.1.1\tests\call_inout.cpp(100) : warning C4786: 'std::pair<std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator,std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator>' : identifier was truncated to '255' characters in the debug information
+d:\aakees\ubc\jass-sdk\platform\rtaudio-2.1.1\tests\call_inout.cpp(100) : warning C4786: 'std::pair<std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::const_iterator,std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::const_iterator>' : identifier was truncated to '255' characters in the debug information
+RtAudio.cpp
+d:\aakees\ubc\jass-sdk\platform\rtaudio-2.1.1\rtaudio.cpp(83) : warning C4786: 'std::reverse_bidirectional_iterator<std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator,std::pair<int const ,void *>,std::pair<int const ,void *> &,std::pair<int const ,void *> *,int>' : identifier was truncated to '255' characters in the debug information
+d:\aakees\ubc\jass-sdk\platform\rtaudio-2.1.1\rtaudio.cpp(83) : warning C4786: 'std::reverse_bidirectional_iterator<std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::const_iterator,std::pair<int const ,void *>,std::pair<int const ,void *> const &,std::pair<int const ,void *> const *,int>' : identifier was truncated to '255' characters in the debug information
+d:\aakees\ubc\jass-sdk\platform\rtaudio-2.1.1\rtaudio.cpp(83) : warning C4786: 'std::pair<std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator,std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator>' : identifier was truncated to '255' characters in the debug information
+d:\aakees\ubc\jass-sdk\platform\rtaudio-2.1.1\rtaudio.cpp(83) : warning C4786: 'std::pair<std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::const_iterator,std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::const_iterator>' : identifier was truncated to '255' characters in the debug information
+c:\program files\microsoft visual studio\vc98\include\xtree(380) : warning C4786: 'pair<std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator,std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocat' : identifier was truncated to '255' characters in the debug information
+        c:\program files\microsoft visual studio\vc98\include\xtree(376) : while compiling class-template member function 'unsigned int __thiscall std::_Tree<int,struct std::pair<int const ,void *>,struct std::map<int,void *,struct std::less<int>,class std::allocator<void *> >::_Kfn,struct std::less<int>,class std::allocator<void *> >::erase(const int &)'
+c:\program files\microsoft visual studio\vc98\include\xtree(380) : warning C4786: 'std::pair<std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator,std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator>' : identifier was truncated to '255' characters in the debug information
+        c:\program files\microsoft visual studio\vc98\include\xtree(376) : while compiling class-template member function 'unsigned int __thiscall std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::erase(const int &)'
+c:\program files\microsoft visual studio\vc98\include\xtree(182) : warning C4786: 'std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::~_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >' : identifier was truncated to '255' characters in the debug information
+c:\program files\microsoft visual studio\vc98\include\xtree(162) : warning C4786: 'std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >' : identifier was truncated to '255' characters in the debug information
+c:\program files\microsoft visual studio\vc98\include\xtree(236) : warning C4786: '__ehhandler$?insert@?$_Tree@HU?$pair@$$CBHPAX@std@@U_Kfn@?$map@HPAXU?$less@H@std@@V?$allocator@PAX@2@@2@U?$less@H@2@V?$allocator@PAX@2@@std@@QAE?AU?$pair@Viterator@?$_Tree@HU?$pair@$$CBHPAX@std@@U_Kfn@?$map@HPAXU?$less@H@std@@V?$allocator@PAX@2@@2@U?$less@H@2@V?$allocator@PAX@2@@std@@_N@2@ABU?$pair@$$CBHPAX@2@@Z' : identifier was truncated to '255' characters in the debug information
+c:\program files\microsoft visual studio\vc98\include\xtree(236) : warning C4786: '__unwindfunclet$?insert@?$_Tree@HU?$pair@$$CBHPAX@std@@U_Kfn@?$map@HPAXU?$less@H@std@@V?$allocator@PAX@2@@2@U?$less@H@2@V?$allocator@PAX@2@@std@@QAE?AU?$pair@Viterator@?$_Tree@HU?$pair@$$CBHPAX@std@@U_Kfn@?$map@HPAXU?$less@H@std@@V?$allocator@PAX@2@@2@U?$less@H@2@V?$allocator@PAX@2@@std@@_N@2@ABU?$pair@$$CBHPAX@2@@Z$0' : identifier was truncated to '255' characters in the debug information
+c:\program files\microsoft visual studio\vc98\include\utility(21) : warning C4786: 'std::pair<std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator,bool>::pair<std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator,bool>' : identifier was truncated to '255' characters in the debug information
+c:\program files\microsoft visual studio\vc98\include\utility(21) : warning C4786: 'std::pair<std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator,std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator>::pair<std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator,std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator>' : identifier was truncated to '255' characters in the debug information
+c:\program files\microsoft visual studio\vc98\include\utility(119) : warning C4786: 'std::pair<std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator,std::_Tree<int,std::pair<int const ,void *>,std::map<int,void *,std::less<int>,std::allocator<void *> >::_Kfn,std::less<int>,std::allocator<void *> >::iterator>' : identifier was truncated to '255' characters in the debug information
+Linking...
+
+
+
+<h3>Results</h3>
+call_inout.exe - 0 error(s), 17 warning(s)
+</pre>
+</body>
+</html>

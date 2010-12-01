@@ -1,0 +1,104 @@
+javac -target 1.5 -source 1.5 -classpath ".;../../" *.java
+PottsDemo.java:31: cannot find symbol
+symbol  : class BufferedImage
+location: class PottsDemo.Draw
+        private final BufferedImage offscreenImage, onscreenImage;
+                      ^
+PottsDemo.java:34: cannot find symbol
+symbol  : class JFrame
+location: class PottsDemo.Draw
+        private JFrame frame = new JFrame();
+                ^
+PottsDemo.java:36: cannot find symbol
+symbol  : class JLabel
+location: class PottsDemo.Draw
+        private JLabel draw;
+                ^
+PottsDemo.java:27: inner classes cannot have static declarations
+        private static final Font DEFAULT_FONT = new Font("Serif", Font.PLAIN, 16);
+                                  ^
+PottsDemo.java:34: cannot find symbol
+symbol  : class JFrame
+location: class PottsDemo.Draw
+        private JFrame frame = new JFrame();
+                                   ^
+PottsDemo.java:42: cannot find symbol
+symbol  : class BufferedImage
+location: class PottsDemo.Draw
+            offscreenImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+                                 ^
+PottsDemo.java:42: cannot find symbol
+symbol  : variable BufferedImage
+location: class PottsDemo.Draw
+            offscreenImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+                                                              ^
+PottsDemo.java:43: cannot find symbol
+symbol  : class BufferedImage
+location: class PottsDemo.Draw
+            onscreenImage  = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+                                 ^
+PottsDemo.java:43: cannot find symbol
+symbol  : variable BufferedImage
+location: class PottsDemo.Draw
+            onscreenImage  = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+                                                              ^
+PottsDemo.java:46: cannot find symbol
+symbol  : method setXscale()
+location: class PottsDemo.Draw
+            setXscale();
+            ^
+PottsDemo.java:47: cannot find symbol
+symbol  : method setYscale()
+location: class PottsDemo.Draw
+            setYscale();
+            ^
+PottsDemo.java:50: cannot find symbol
+symbol  : method setPenColor()
+location: class PottsDemo.Draw
+            setPenColor();
+            ^
+PottsDemo.java:51: cannot find symbol
+symbol  : method setPenRadius()
+location: class PottsDemo.Draw
+            setPenRadius();
+            ^
+PottsDemo.java:52: cannot find symbol
+symbol  : method setFont()
+location: class PottsDemo.Draw
+            setFont();
+            ^
+PottsDemo.java:60: cannot find symbol
+symbol  : class ImageIcon
+location: class PottsDemo.Draw
+            ImageIcon icon = new ImageIcon(onscreenImage);
+            ^
+PottsDemo.java:60: cannot find symbol
+symbol  : class ImageIcon
+location: class PottsDemo.Draw
+            ImageIcon icon = new ImageIcon(onscreenImage);
+                                 ^
+PottsDemo.java:61: cannot find symbol
+symbol  : class JLabel
+location: class PottsDemo.Draw
+            draw = new JLabel(icon);
+                       ^
+PottsDemo.java:71: cannot find symbol
+symbol  : variable JFrame
+location: class PottsDemo.Draw
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);            // closes all windows
+                                           ^
+PottsDemo.java:74: cannot find symbol
+symbol  : method createMenuBar()
+location: class PottsDemo.Draw
+            frame.setJMenuBar(createMenuBar());
+                              ^
+PottsDemo.java:78: cannot find symbol
+symbol  : method clear()
+location: class PottsDemo.Draw
+            clear();
+            ^
+PottsDemo.java:191: non-static variable this cannot be referenced from a static context
+        Draw draw = new Draw(200,200);
+                    ^
+21 errors
+make: *** [all] Error 1

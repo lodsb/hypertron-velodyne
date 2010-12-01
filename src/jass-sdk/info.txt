@@ -1,0 +1,3 @@
+JASS Version 1.25
+Build date:
+Mon Jan 25 15:55:28 PST 2010

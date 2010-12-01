@@ -1,0 +1,3 @@
+Applet Conversion January 31, 2001 1:20:34 AM PST
+c:\aakees\ubc\jsynth\examples\modalNoise\modalNoise_av.html  Processing...Done  Applets Found:  1
+All Done  Files Processed:  1  Applets Found:  1

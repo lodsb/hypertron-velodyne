@@ -1,0 +1,25 @@
+RM = /bin/rm
+SRC_PATH = ../
+JAVADIR = /usr/java/j2sdk1.4.1_01
+INCLUDE = -I$(JAVADIR)/include -I$(JAVADIR)/include/linux
+OBJECT_PATH = lib
+vpath %.o $(OBJECT_PATH)
+
+CC       = g++
+DEFS     = 
+DEFS    += -D__LINUX_OSS__
+CFLAGS   = -O2
+CFLAGS  += -Wall $(INCLUDE)
+LIBRARY += 
+
+%.o : $(SRC_PATH)/%.cpp
+	$(CC) $(CFLAGS) $(DEFS) -fpic -c $(<) -o $(OBJECT_PATH)/$@
+
+all: microtime
+
+microtime: ../jass_render_MicroTime.cpp
+	$(CC) $(CFLAGS) $(DEFS) -shared -o $(OBJECT_PATH)/libMicroTime.so ../jass_render_MicroTime.cpp
+
+clean : 
+	-rm $(OBJECT_PATH)/jass_*.o	
+	-rm -f *~

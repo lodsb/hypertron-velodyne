@@ -1,0 +1,12 @@
+HailDensity 
+9.999999747378752E-5
+0.0
+0.1
+MassDistributionExponent 
+2.0
+0.0
+1000.0
+#modes
+1.0
+1.0
+10000.0

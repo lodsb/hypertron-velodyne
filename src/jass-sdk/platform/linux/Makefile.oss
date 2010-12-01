@@ -1,0 +1,28 @@
+RM = /bin/rm
+SRC_PATH = ../
+JAVADIR = /usr/java/j2sdk1.4.1_01
+INCLUDE = -I$(JAVADIR)/include -I$(JAVADIR)/include/linux
+AUDIOAPI = oss
+OBJECT_PATH = lib/$(AUDIOAPI)
+vpath %.o $(OBJECT_PATH)
+
+CC       = g++
+DEFS     = 
+DEFS    += -D__LINUX_OSS__
+CFLAGS   = -O2
+CFLAGS  += -Wall $(INCLUDE)
+LIBRARY  = -lpthread 
+LIBRARY += 
+
+
+%.o : $(SRC_PATH)/%.cpp
+	$(CC) $(CFLAGS) $(DEFS) -fpic -c $(<) -o $(OBJECT_PATH)/$@
+
+all: rtaudio
+
+rtaudio: jass_render_RTPlay.o jass_render_RTAudioIn.o jass_render_RTAudioFullDuplexRtAudio.o
+	$(CC) $(CFLAGS) $(DEFS) -shared -o $(OBJECT_PATH)/librtaudio.so $(OBJECT_PATH)/jass_render_RTPlay.o $(OBJECT_PATH)/jass_render_RTAudioIn.o $(OBJECT_PATH)/jass_render_RTAudioFullDuplexRtAudio.o $(OBJECT_PATH)/RtAudio.o
+
+clean : 
+	-rm $(OBJECT_PATH)/jass_*.o	
+	-rm -f *~

@@ -1,0 +1,29 @@
+RM = /bin/rm
+SRC_PATH = ../
+INCLUDE = -I/System/Library/Frameworks/JavaVM.framework/Headers
+AUDIOAPI = coreaudio
+OBJECT_PATH = lib
+RTAUDIO_PATH=../rtaudio-2.1.1/tests/Release/
+vpath %.o $(OBJECT_PATH)
+
+CC       = g++
+DEFS     = 
+DEFS    += -D__MACOSX_CORE__
+CFLAGS   = -O2 -bundle -undefined suppress -flat_namespace
+CFLAGS  += -Wall $(INCLUDE)
+LIBRARY  = -lpthread -lstdc++ 
+#-framework CoreAudio
+LIBRARY += 
+
+
+%.o : $(SRC_PATH)/%.cpp
+	$(CC) $(CFLAGS) $(DEFS)  -c $(<) -o $(OBJECT_PATH)/$@
+
+all: rtaudio
+
+rtaudio: jass_render_RTPlay.o jass_render_RTAudioIn.o jass_render_RTAudioFullDuplexRtAudio.o
+	$(CC) $(CFLAGS) $(DEFS) -o $(OBJECT_PATH)/librtaudio.jnilib $(OBJECT_PATH)/jass_render_RTPlay.o $(OBJECT_PATH)/jass_render_RTAudioIn.o $(OBJECT_PATH)/jass_render_RTAudioFullDuplexRtAudio.o $(OBJECT_PATH)/RtAudio.o
+
+ clean : 
+	-rm $(OBJECT_PATH)/jass_*.o	
+	-rm -f *~

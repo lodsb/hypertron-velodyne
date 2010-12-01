@@ -1,0 +1,153 @@
+<HTML>
+<HEAD>
+<TITLE>ModalNoise demo</TITLE>
+</HEAD>
+<BODY>
+
+<H1>ModalNoise demo</H1>
+
+<p>
+<H3 ALIGN="CENTER">Author: Kees van den Doel <A HREF="http://www.cs.ubc.ca/spider/kvdoel/home.html"></A></H3>
+<p>
+
+<TABLE BORDER="5" CELLPADDING="0" WIDTH="424" BGCOLOR="#C0C0C0">
+<TR>
+<TD>
+
+<APPLET CODE = "ModalNoiseApplet.class" ARCHIVE = ../jar/jass.jar WIDTH = 600 HEIGHT = 300>
+</APPLET>
+
+</TR>
+</TABLE>
+<BR>
+<p>
+This applet filters white noise through a bank of reson filters. You can
+set the frequencies, dampings, and gains of each reson with the sliders,
+or generate random settings with the button. The SourcePlayer does
+automatic gain control (AGC) so if you make a change that results in a
+large reduction in volume, for example going from lightly damped modes
+to highly damped modes, you may not hear anything. Pressing ResetAGC
+will reset the gain control in that case.
+<p>
+Source code:
+<pre>
+import jass.render.*;
+import jass.engine.*;
+import jass.generators.*;
+
+/**
+   Filter white noise through a modal resonbank.
+   @author Kees van den Doel (kvdoel@cs.ubc.ca)
+*/
+public class ModalNoiseApplet extends AppletController {
+
+    RandOut rout;
+    SourcePlayer player;
+    ModalObjectWithOneContact mob;
+    ModalModel mm;
+    
+    int nmodes = 3; // up to 5
+    float srate = 44100.f;
+    double fmin = 50;
+    double fmax = srate/4;
+    double dmin = 1;
+    double dmax = srate/4;
+    double amin = 0;
+    double amax = 1;
+
+    String[] names = new String[nmodes*3];
+    double[] val =   new double[nmodes*3];
+    double[] min =  new double[nmodes*3];
+    double[] max = new double[nmodes*3];
+    
+    public void setNSliders() {
+        nsliders = nmodes*3;
+    }
+
+    public void initRandom() {
+        for(int i=0;i<nmodes;i++) {
+            mm.f[i] = (float)(fmin + (fmax-fmin)*Math.random());
+            mm.d[i] = (float)(dmin + (dmax-dmin)*Math.random());
+            mm.a[0][i] = (float)(amin + (amax-amin)*Math.random());
+        }
+    }
+    
+    public void start() {
+
+        int bufferSize = 128*4;
+        int bufferSizeJavaSound = 8*1024;
+        rout = new RandOut(bufferSize);
+        player = new SourcePlayer(bufferSize,bufferSizeJavaSound,srate);
+        mm = new ModalModel(nmodes,1);
+        mm.f = new float[nmodes];
+        mm.d = new float[nmodes];
+        mm.a = new float[1][nmodes];
+        initRandom();
+        mob =  new ModalObjectWithOneContact(mm,srate,bufferSize);
+        try {
+            player.addSource(mob);
+            mob.addSource(rout);
+        } catch(SinkIsFullException e) {
+        }
+
+        for(int i=0;i<nmodes;i++) {
+            names[i] = "freq" + i + " ";
+            names[i+nmodes] = "damping" + i + " ";
+            names[i+2*nmodes] = "gain" + i + " ";
+            val[i] = mm.f[i];
+            val[i+nmodes] = mm.d[i];
+            val[i+2*nmodes] = mm.a[0][i];
+            min[i] = fmin;
+            min[i+nmodes] = dmin;
+            min[i+2*nmodes] = amin;
+            max[i] = fmax;
+            max[i+nmodes] = dmax;
+            max[i+2*nmodes] = amax;
+        }
+        setValues(val,min,max,names);
+        jButton1.setText ("Randomize");
+        jButton2.setText ("Reset AGC");
+        
+        player.start();
+    }
+
+    protected void jButton1MousePressed (java.awt.event.MouseEvent evt) {
+        initRandom();
+        for(int i=0;i<nmodes;i++) {
+            val[i] = mm.f[i];
+            val[i+nmodes] = mm.d[i];
+            val[i+2*nmodes] = mm.a[0][i];
+        }
+        setValues(val,min,max,names);
+        mob.computeFilter();
+        player.resetAGC();
+    }
+
+    protected void jButton2MousePressed (java.awt.event.MouseEvent evt) {
+        player.resetAGC();
+    }
+    
+    
+    protected void onSlider(int k) {
+        if(k<nmodes) {
+            mm.f[k] = (float)(super.val[k]);
+        } else if(k<nmodes*2) {
+            mm.d[k-nmodes] = (float)(super.val[k]);
+        } else if(k<nmodes*3) {
+            mm.a[0][k-2*nmodes] = (float)(super.val[k]);
+        }
+        mob.computeFilter();
+    }
+}
+
+
+
+</pre>
+
+
+
+</BODY>
+</HTML>
+
+
+

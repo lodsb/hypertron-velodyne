@@ -1,0 +1,98 @@
+
+<H3 ALIGN="CENTER">Author: Kees van den Doel <A HREF="http://www.cs.ubc.ca/~kvdoel"></A></H3>
+<p>
+
+<a href=jass.zip>Download SDK</a><p>
+<a href=jass_nodata.zip>Download SDK without data files </a><p>
+<a href="doc/index.html">Documentation</a><p>
+<a href="http://www.cs.ubc.ca/~kvdoel/publications/icad01.pdf">Conference paper on JASS</a><p>
+
+JASS  (Java Audio  Synthesis System)  is  a unit  generator based  audio
+synthesis programming environment written in pure Java. Java 1.5 is
+required.  The environment
+is based on a foundation structure  consisting of a small number of Java
+interfaces and  abstract classes, which implement the functionality
+needed to create filter-graphs, or "patches".
+Unit generators are created by extending the abstract classes and
+implementing   a  single   method.  
+Patches are created by  linking together unit generators in arbitrary
+complex  graph structures.  Patches  can be  rendered in  real-time with
+special unit generators that  communicate with the audio hardware, which
+have been  implemented using the  JavaSound API and  through JNI
+for some platforms. <p>
+
+As  an  alternative  to   JavaSound,  low  latency  synthesis  has  been
+implemented  through  native methods.  As  of  Java  1.5 most  javasound
+implementations will  suffice.  This is currently  implemented for LINUX
+(ALSA and  OSS), Macintosh (OS/X),  and Windows (DirectX,  ASIO blocking
+API,  ASIO  callback  API).   All  native  implementations  except  ASIO
+callback                              use                             <a
+href="http://ccrma-www.stanford.edu/~gary/rtaudio/">RtAudio</a>,        a
+realtime audio i/o C++ class written by Gary P. Scavone.<p>
+
+JASS with full source code  is freely available  for non commercial
+use. If you find a bug, let <a href=mailto:kvdoel@cs.ubc.ca>me</a> know
+what it is. Please include the release you were using from the <a
+href=info.txt>
+info.txt</a> file included with your release.<p>
+
+The  JASS system  has been  used to  design algorithms  to automatically
+generate  soundtracks  for  dynamics  simulations  with  contacts.   The
+resulting system, FoleyAutomatic, is described in a SIGGRAPH 2001 paper:
+<a href="http://www.cs.ubc.ca/~kvdoel/publications/foleyautomatic.pdf">
+Click here to download paper</a>.
+The results are demonstrated with a
+<a href="http://www.cs.ubc.ca/~kvdoel/publications/foleyautomatic.mpeg">    video
+clip  </a> of real-time dynamical simulations  using  JASS to create the
+sound-effects.<p>
+
+<h4>Online Demos</h4>
+
+Below are the  online Java Applets, with source code,  from the JASS SDK
+demonstrating  various  real-time  audio  synthesis  algorithms.   These
+Applets can be run from any  Java 5 enabled web browser such as Netscape
+6 and up  (tested on  Windows and LINUX),  Internet  Explorer 6 and up
+(tested  on  Windows) ,  or  Opera  5.11  (tested on  Windows). 
+<p>
+
+A few  demos below  use mike  input which may  or may  not work  in your
+browser, depending  on your security  configuration which may or  may not
+allow applets to listen to your mike input.
+<p>
+
+<a href="playwav/playwav.html">Hello World sound</a><p>
+<a href="bell/bell.html">Churchbell</a><p>
+<a href="morph2/morph2.html">Morph between 2 sound models</a><p>
+<a href="combustionEngine/combustionEngine.html">Combustion engine</a><p>
+<a href="modalNoise/modalNoise.html">Filter white noise through a small reson
+bank</a><p>
+<a href="reverb/reverb.html">Software reverb. Mike input is optional.</a><p>
+<a href="modalNoise2/modalNoise2.html">Filter white noise through a BIG reson bank</a><p>
+<a href="delay/delay.html">Simple delay loop  string sound</a><p>
+<a href="saw/saw.html">Shortest program: a sawtooth generator</a><p>
+<a href="mike/mike.html">A real-time echo effect using mike input</a><p>
+<a href="creaking/creaking.html">Creaking sounds with a simple
+stick-slip</a><p>
+<a href="grains/grains.html">Some kindof proto-granular
+synthesis</a><p>
+<a href="masking/masking.html">Fool around with tone and noise masking</a><p>
+
+
+
+<hr>
+<img align=middle width=75 height=20
+src=http://www.cs.ubc.ca/cgi-bin/nph-counter/jass-counter?width=5> <p>
+<!counter jan 29 2001>
+
+
+<center><i><small>This
+project is made
+possible through a grant from the Peter Wall Institute for Advanced
+Studies.</i></small> <a href="http://www.pwias.ubc.ca/"><img SRC="peterwalllogo.jpg" ALT="Funded by the Peter Wall Institute for Advanced Studies, UBC, Canada"
+HSPACE=20 BORDER=0 height=104 width=356 align=CENTER></a></center>
+
+</BODY>
+</HTML>
+
+
+
