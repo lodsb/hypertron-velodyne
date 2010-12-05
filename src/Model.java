@@ -192,6 +192,7 @@ public class Model extends OBJModel {
 			}
 			
 			n.createInputChannels(inEdges.size());
+			n.azimuthAndElevation = azAndEl;
 		}
 		
 		double delayLineLength = 0.0;

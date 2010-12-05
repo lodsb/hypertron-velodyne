@@ -41,6 +41,8 @@ public class HRIRLoader {
 	
 	// 3d -> left/right each real, imag arrays
 	public double[][][] getImpulseResponses(double azimuth, double elevation) {
+		System.err.println("AZ ELEV "+azimuth+" "+elevation);
+		
 		double[][] polarCoords = this.getNearestTwoPolarCoords(azimuth, elevation);
 
 		double sL1[][] = this.loadIRFile(polarCoords[0][0], polarCoords[0][1], true);
