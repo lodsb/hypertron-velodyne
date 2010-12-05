@@ -66,7 +66,7 @@ public class Processor implements Runnable {
 		
 		int i = 0;
 		for(Node node: this.model.getModelData().listenerNodes) {
-			new HRTFRenderer(node, i+""+node.name+".wav", true).render();
+			//new HRTFRenderer(node, i+""+node.name+".wav", true).render();
 			i++;
 		}
 	}

@@ -1,6 +1,24 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+#
+# CIPIC converter
+# ---------------
+#
+# Simple script to convert the .mat files in the CIPIC_hrtf_database
+# to text files named after their azimuth/elevation/channel (Left/Right).
+# Simply run in the same dir, the .txt files will be placed in the same 
+# dir(s) where the hrir_final.mat file resides.
+#
+# NOTE: also calculates the FFT and pads to 256 samples
+#
+#
+# 2010 , lodsb // Niklas Klügel
+# Released under GPLv3 License
+#
+
 import os;
 import scipy.io;
+import numpy.fft;
 #import pylab;
 
 
@@ -12,6 +30,7 @@ def elevationDeg(iteration):
 	return -45.0 + (5.625*iteration)
 
 filenr = 2;
+
 def crawldir(cdir):
 	for cfile in os.listdir(cdir):
 		jdir = os.path.join(cdir, cfile)
@@ -25,12 +44,12 @@ def crawldir(cdir):
 
 def extractIRs(cfile, path):
 	mat = scipy.io.loadmat(cfile)
-	writeArray(mat['hrir_l'],path, 'L');
-	writeArray(mat['hrir_r'],path, 'R');
+	convertArray(mat['hrir_l'],path, 'L');
+	convertArray(mat['hrir_r'],path, 'R');
 
 	
 
-def writeArray(hrirArray, path, filename):	
+def convertArray(hrirArray, path, filename):	
 	i = 0;
 	for azArr in hrirArray:
 		azdeg = azimuthDeg[i];
@@ -40,12 +59,21 @@ def writeArray(hrirArray, path, filename):
 		for elevArr in azArr:
 			eldeg = elevationDeg(j)
 			j = j + 1;	
-
-			file = open(os.path.join(path,filename+"_"+str(azdeg)+"_"+str(eldeg)+'.txt'), 'w');		
-			for val in elevArr:	
-				file.write(str(val)+"\n");
-
-			file.close();
+			cmplxArray = calcFreqDomain(elevArr);
+			writeArray(cmplxArray, path, filename, azdeg, eldeg);
+			
+def calcFreqDomain(array):
+	return numpy.fft.fft(array, 256);
+	
+	
+	
+def writeArray(complexArray, path, filename, azdeg, eldeg):
+	file = open(os.path.join(path,filename+"_"+str(azdeg)+"_"+str(eldeg)+'.txt'), 'w');		
+	
+	for cmplx in complexArray:	
+	  file.write(str(cmplx.real)+" "+str(cmplx.imag)+"\n");
+	
+	file.close();
 
 
 def main():

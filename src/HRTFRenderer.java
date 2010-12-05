@@ -9,18 +9,16 @@ public class HRTFRenderer {
 	private String filename;
 	private Node node; 
 	
-	private HRTF hrtf;
 	private static int windowLength = 256;
-	private String hrtf_file = "db/CIPIC_hrtf_database/standard_hrir_database/subject_003/hrir_final.mat";
+	private String hrtf_files = "db/CIPIC_hrtf_database/standard_hrir_database/subject_003/";
+	
+	private HRIRLoader hrirLoader = new  HRIRLoader(hrtf_files);
 	
 	public boolean normalizeSum = false;
 	
 	public HRTFRenderer(Node listenerNode, String filename, boolean normalizeSum) {
 		this.node = listenerNode;
 		this.filename = filename;
-		
-		this.hrtf = new HRTF(windowLength, hrtf_file);
-		this.hrtf.startSpatial();
 		this.normalizeSum = normalizeSum;
 	}
 	
@@ -46,14 +44,17 @@ public class HRTFRenderer {
 			if(out == null) {
 				out = new float[samples.length*2];
 			}
-			
+
 			// setup loc+buf
 			float[] azAndElev = node.azimuthAndElevation.get(channelNr);
-			this.hrtf.setLocation(new PositionData(azAndElev[0], azAndElev[1]));
+			double[][][] ir = this.hrirLoader.getImpulseResponses(azAndElev[0],azAndElev[1]);
+			
+			HRTFConv hrtf = new HRTFConv(ir);
+			
 			float[] tmpRight = new float[samples.length];
 			float[] tmpLeft  = new float[samples.length];
 			
-			this.hrtf.process(samples, tmpLeft, tmpRight);
+			hrtf.process(samples, tmpLeft, tmpRight);
 			
 			for(int i = 0; i < tmpLeft.length; i++) {
 				out[2*i]   += tmpLeft[i];

@@ -3,10 +3,17 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
+
+// NOTE:
+// the python script for the CIPIC conversion calculates also the FFT and pads the original data
+// to 256 bins;
 
 public class HRIRLoader {
 	// reimplemented from hrir_data_documentation.pdf
+	
+	private final int fftLen = 256;
 
 	private final double[] azimuthDeg ={-80, -65, -55, -45, -40, -35, 
 			-30,-25,-20,-15,-10,-5,0,5,10,
@@ -26,28 +33,27 @@ public class HRIRLoader {
 
 
 	private String path;
-	private double az;
-	private double el;
-	public HRIRLoader(double az, double elev, String path) {
+//	private double az;
+//	private double el;
+	public HRIRLoader(String path) {
 		this.path = path;
-		this.az = az;
-		this.el = elev;
 	}
-
-	private double[][] getImpulseResponses(double azimuth, double elevation) {
+	
+	// 3d -> left/right each real, imag arrays
+	public double[][][] getImpulseResponses(double azimuth, double elevation) {
 		double[][] polarCoords = this.getNearestTwoPolarCoords(azimuth, elevation);
 
-		double sL1[] = this.loadIRFile(polarCoords[0][0], polarCoords[0][1], true);
-		double sR1[] = this.loadIRFile(polarCoords[0][0], polarCoords[0][1], false);
+		double sL1[][] = this.loadIRFile(polarCoords[0][0], polarCoords[0][1], true);
+		double sR1[][] = this.loadIRFile(polarCoords[0][0], polarCoords[0][1], false);
 
-		double sL2[] = this.loadIRFile(polarCoords[1][0], polarCoords[1][1], true);
-		double sR2[] = this.loadIRFile(polarCoords[1][0], polarCoords[1][1], false);
+		double sL2[][] = this.loadIRFile(polarCoords[1][0], polarCoords[1][1], true);
+		double sR2[][] = this.loadIRFile(polarCoords[1][0], polarCoords[1][1], false);
 		
 		double azDiff = Math.abs(polarCoords[1][0]-polarCoords[0][0]); 
 		double azDiffRatio = Math.abs(polarCoords[1][0])/azDiff;
 		
-		double l[] = null;
-		double r[] = null;
+		double l[][] = null;
+		double r[][] = null;
 		
 		// Fixme: recheck!
 		if(sL1 != null && sL2 != null && sR1 != null && sR2 != null) {
@@ -55,22 +61,23 @@ public class HRIRLoader {
 			r = interpolate(sR1, sR2, azDiffRatio);
 		}
 		
-		return new double[][]{l,r};
+		return new double[][][]{l,r};
 	}
 
-	private double[] interpolate(double[] a, double[] b, double ratio) {
-		double[] ret = new double[a.length];
+	private double[][] interpolate(double[][] a, double[][] b, double ratio) {
+		double[][] ret = new double[a.length][2];
 		double inratio = 1.0-ratio;
 		
 		for(int i = 0; i < ret.length; i++) {
-			ret[i] = (a[i]*ratio)+(b[i]*inratio);
+			ret[i][0] = (a[i][0]*ratio)+(b[i][0]*inratio);
+			ret[i][1] = (a[i][1]*ratio)+(b[i][1]*inratio);
 		}
 		
 		return ret;
 	}
 	
-	private double[] loadIRFile(double azi, double ele, boolean left) {
-		double[] ret = new double[200];
+	private double[][] loadIRFile(double azi, double ele, boolean left) {
+		double[][] ret = new double[fftLen][2];
 
 		String filename;
 
@@ -94,13 +101,17 @@ public class HRIRLoader {
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
-
 			for(int i = 0; i < ret.length; i++) {
 				String strLine;
 
 				if((strLine = br.readLine()) != null)   {
 					
-					ret[i] = new Double(strLine);
+					String[] strings = strLine.split(" ");
+					
+					// real
+					ret[i][0] = new Double(strings[0]);
+					// imag
+					ret[i][1] = new Double(strings[1]);
 					
 				} else {
 					System.out.println("loaded "+i+" samples");
@@ -135,7 +146,7 @@ public class HRIRLoader {
 		for(double azDeg: azimuthDeg) {
 			if(Math.signum(azDeg) == Math.signum(azimuth)) {
 				double diff = Math.abs(azDeg-azimuth);
-				if(diff < minAz) {
+				if(diff <= minAz) {
 					minAzOld = minAz;
 					minAz = diff;
 				}
@@ -150,7 +161,7 @@ public class HRIRLoader {
 
 			if(Math.signum(elevDeg) == Math.signum(elevation)) {
 				double diff = Math.abs(elevDeg-elevation);
-				if(diff < minAz) {
+				if(diff <= minElev) {
 					minElevOld = minElev;
 					minElev = diff;
 				}
