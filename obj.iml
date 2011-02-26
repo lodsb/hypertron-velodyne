@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="file:///media/datahog/work/lazerdoom/eclipse_workspace/lazerdoom/lzrdm1000/libs/jung/collections-generic-4.01.jar" />
+    <libelement value="file:///media/datahog/work/lazerdoom/eclipse_workspace/lazerdoom/lzrdm1000/libs/jung/colt-1.2.0.jar" />
+    <libelement value="file:///media/datahog/work/lazerdoom/eclipse_workspace/lazerdoom/lzrdm1000/libs/jung/concurrent-1.3.4.jar" />
+    <libelement value="file:///media/datahog/work/lazerdoom/eclipse_workspace/lazerdoom/lzrdm1000/libs/jung/jung-3d-2.0.jar" />
+    <libelement value="file:///media/datahog/work/lazerdoom/eclipse_workspace/lazerdoom/lzrdm1000/libs/jung/jung-3d-demos-2.0.jar" />
+    <libelement value="file:///media/datahog/work/lazerdoom/eclipse_workspace/lazerdoom/lzrdm1000/libs/jung/jung-algorithms-2.0.jar" />
+    <libelement value="file:///media/datahog/work/lazerdoom/eclipse_workspace/lazerdoom/lzrdm1000/libs/jung/jung-api-2.0.jar" />
+    <libelement value="file:///media/datahog/work/lazerdoom/eclipse_workspace/lazerdoom/lzrdm1000/libs/jung/jung-api-2.0-tests.jar" />
+    <libelement value="file:///media/datahog/work/lazerdoom/eclipse_workspace/lazerdoom/lzrdm1000/libs/jung/jung-graph-impl-2.0.jar" />
+    <libelement value="file:///media/datahog/work/lazerdoom/eclipse_workspace/lazerdoom/lzrdm1000/libs/jung/jung-io-2.0.jar" />
+    <libelement value="file:///media/datahog/work/lazerdoom/eclipse_workspace/lazerdoom/lzrdm1000/libs/jung/jung-jai-2.0.jar" />
+    <libelement value="file:///media/datahog/work/lazerdoom/eclipse_workspace/lazerdoom/lzrdm1000/libs/jung/jung-jai-samples-2.0.jar" />
+    <libelement value="file:///media/datahog/work/lazerdoom/eclipse_workspace/lazerdoom/lzrdm1000/libs/jung/jung-samples-2.0.jar" />
+    <libelement value="file:///media/datahog/work/lazerdoom/eclipse_workspace/lazerdoom/lzrdm1000/libs/jung/jung-visualization-2.0.jar" />
+    <libelement value="file:///media/datahog/work/lazerdoom/eclipse_workspace/lazerdoom/lzrdm1000/libs/jung/stax-api-1.0.1.jar" />
+    <libelement value="file:///media/datahog/work/lazerdoom/eclipse_workspace/lazerdoom/lzrdm1000/libs/jung/wstx-asl-3.2.6.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/lib/antlr.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/lib/core.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/lib/ecj.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/lib/jna.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/lib/pde.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/libraries/opengl/library/gluegen-rt.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/libraries/opengl/library/gluegen-rt-natives-linux-amd64.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/libraries/opengl/library/gluegen-rt-natives-linux-i586.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/libraries/opengl/library/gluegen-rt-natives-macosx-ppc.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/libraries/opengl/library/gluegen-rt-natives-macosx-universal.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/libraries/opengl/library/gluegen-rt-natives-windows-amd64.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/libraries/opengl/library/gluegen-rt-natives-windows-i586.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/libraries/opengl/library/jogl.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/libraries/opengl/library/jogl-natives-linux-amd64.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/libraries/opengl/library/jogl-natives-linux-i586.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/libraries/opengl/library/jogl-natives-macosx-ppc.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/libraries/opengl/library/jogl-natives-macosx-universal.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/libraries/opengl/library/jogl-natives-windows-amd64.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/libraries/opengl/library/jogl-natives-windows-i586.jar" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/libraries/opengl/library/opengl.jar" />
+    <libelement value="jar://$MODULE_DIR$/libs/peasycam/library/PeasyCam.jar!/" />
+    <libelement value="file://$USER_HOME$/Downloads/processing/processing-1.0.9/libraries/dxf/dxfviewer.jar" />
+    <libelement value="file://$USER_HOME$/objloader/library/OBJLoader.jar" />
+    <libelement value="jar://$MODULE_DIR$/libs/jMusic1.6.02.jar!/" />
+    <libelement value="file://$MODULE_DIR$/src/jass-sdk" />
+    <libelement value="jar://$MODULE_DIR$/libs/core.jar!/" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/data" />
+      <excludeFolder url="file://$MODULE_DIR$/db" />
+      <excludeFolder url="file://$MODULE_DIR$/libs" />
+      <excludeFolder url="file://$MODULE_DIR$/src/jass-sdk/doc" />
+      <excludeFolder url="file://$MODULE_DIR$/src/jass-sdk/examples" />
+      <excludeFolder url="file://$MODULE_DIR$/src/jass-sdk/platform" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="jdk" jdkName="1.6 (1)" jdkType="JavaSDK" />
+    <orderEntry type="module-library" exported="">
+      <library name="PeasyCam.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/peasycam/library/PeasyCam.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="jMusic1.6.02.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/jMusic1.6.02.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="jass-sdk">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/src/jass-sdk" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="core.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/core.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" exported="" name="processing" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/processing-0192/lib/ant-launcher.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/processing-0192/lib/ant.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/processing-0192/lib/pde.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/processing-0192/lib/core.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/processing-0192/lib/antlr.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/processing-0192/lib/jna.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/processing-0192/lib/ecj.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/processing-0192/libraries/opengl/library/jogl.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/processing-0192/libraries/opengl/library/opengl.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/processing-0192/libraries/opengl/library/gluegen-rt-natives-linux-amd64.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/processing-0192/libraries/opengl/library/gluegen-rt.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/processing-0192/libraries/opengl/library/jogl-natives-linux-amd64.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/jung-visualization-2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/stax-api-1.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/wstx-asl-3.2.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/jung-io-2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/jung-jai-2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/jung-jai-samples-2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/jung-samples-2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/jung-algorithms-2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/jung-api-2.0-tests.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/jung-api-2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/jung-graph-impl-2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/colt-1.2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/concurrent-1.3.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/jung-3d-2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/jung-3d-demos-2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/collections-generic-4.01.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/PeasyCam_0.91.zip!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/OBJLoader.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/processing-0192/libraries/dxf/library/dxf.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>
+

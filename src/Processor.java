@@ -1,16 +1,17 @@
-
-import java.util.LinkedList;
-
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
-public class Processor implements Runnable {
 
-	private Model model;
+public class Processor<T extends Number> implements Runnable {
+
+	private Model<T> model;
 	private boolean initialized = false;
-	private int samplesToProcess = 1*44100;
+	private int samplesToProcess = 5*44100;
 	
-	public Processor(Model model) {
+	public Processor(Model<T> model) {
 		this.model = model;
 		
 	}
@@ -23,21 +24,23 @@ public class Processor implements Runnable {
 		long startTime = System.currentTimeMillis();
 		
 		if(!initialized) {
-			for(Edge edge: this.model.getModelData().graph.getEdges()) {
+			for(Edge<T> edge: this.model.getModelData().graph.getEdges()) {
 				edge.createDelayLine();
 			}
 			
 			int i = 0;
+            String usrDir = System.getProperty("user.dir");
+
 			for(Node node: this.model.getModelData().sourceNodes) {
 				switch(i) {
 				case 0:
-					node.wavFileReader = new WavFileReader("/home/lodsb/OB8Birds.wav");
+					node.wavFileReader = new WavFileReader(usrDir+"/data/audio/hello.wav");
 					break;
 				case 1:
-					node.wavFileReader = new WavFileReader("/home/lodsb/Obifant.wav");
+					node.wavFileReader = new WavFileReader(usrDir +"/data/audio/bier-1min.wav");
 					break;
 				default:
-					node.wavFileReader = new WavFileReader("/home/lodsb/test_sound_obj.wav");
+					node.wavFileReader = new WavFileReader(usrDir+"data/audio/explosion.wav");
 				}
 				i++;
 			}
@@ -75,8 +78,8 @@ public class Processor implements Runnable {
 	// process SINGLE SAMPLE from sources
 	private void processGraph(Model.GraphModelData md) {
 		
-		for(Node node: md.sourceNodes) {
-			float inputSample = node.wavFileReader.getNextSample();
+		for(Node node: (LinkedList<Node>) md.sourceNodes) {
+			T inputSample = (T) node.wavFileReader.getNextSample();
 	/*		
 			if(t < 10) {
 				inputSample = 1.0f;
@@ -88,12 +91,12 @@ public class Processor implements Runnable {
 			//traverseGraph(md.graph, node, inputSample);
 		}
 		
-		for(Node node: md.graph.getVertices()) {
+		for(Node node: (LinkedList<Node>)  md.graph.getVertices()) {
 			//if(node.type == Node.NodeType.source)
 			//	continue;
 			
-			float sample = 0.0f;
-			for(Edge edge: md.graph.getInEdges(node)) {
+			T sample = (T) 0.0f;
+			for(Edge edge: (List<Edge>) md.graph.getInEdges(node)) {
 				sample =  sample + edge.getDelayLine().getCurrentSample();
 				edge.visited = true;
 			}
@@ -101,14 +104,14 @@ public class Processor implements Runnable {
 			distributeSample(md.graph, node, sample);
 		}
 		
-		float outSample = 0;
-		for(Node node: md.listenerNodes) {
+		T outSample = (T) 0;
+		for(Node node: (LinkedList<Node>) md.listenerNodes) {
 			int channel = 0;
 			
-			for(Edge edge: md.graph.getInEdges(node)) {
-				float c = 1.0f;
+			for(Edge edge: (List<Edge>) md.graph.getInEdges(node)) {
+				T c = (T) 1.0f;
 				if(md.graph.getSource(edge).type == Node.NodeType.source)
-					c = 0.1f;
+					c = (T) 0.1f;
 				
 				outSample = outSample + c*edge.getDelayLine().getCurrentSample();
 				//if(outSample != 0) System.out.println(outSample+ " chan "+channel+" node "
@@ -120,14 +123,14 @@ public class Processor implements Runnable {
 		}
 
 
-		for(Edge edge: md.graph.getEdges()) {
+		for(Edge edge: (List<Edge>) md.graph.getEdges()) {
 			edge.visited = false;
 			edge.getDelayLine().incrementIndex();
 		}
 		
 	}
 	
-	private void distributeSample(DirectedSparseGraph<Node, Edge> graph, Node node, float sample) {
+	private void distributeSample(DirectedSparseGraph<Node, Edge> graph, Node node, T sample) {
 		// distribute energy equally
 		int numOutputs = graph.getOutEdges(node).size();
 		sample = sample/numOutputs;

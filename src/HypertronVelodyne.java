@@ -1,31 +1,15 @@
-import peasy.PeasyCam;
-import processing.core.*;
-import processing.opengl.*;
-
-import java.awt.Button;
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.Label;
-import java.awt.TextField;                                                                
-import java.awt.Panel;                                                                    
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Random;
-import java.util.Map.Entry;
-
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.swing.JFrame;
-
 import edu.uci.ics.jung.graph.util.Pair;
-import processing.opengl.*;
+import peasy.PeasyCam;
+import processing.core.PApplet;
+import processing.core.PVector;
+import saito.objloader.BoundingBox;
+import saito.objloader.Face;
+import saito.objloader.Segment;
 
-import saito.objloader.*;
+import java.util.LinkedList;
 
 
-public class ObjViewer extends PApplet {
+public class HypertronVelodyne extends PApplet {
 	
 	public static int sampleRate = 44100;
 	
@@ -232,7 +216,7 @@ public class ObjViewer extends PApplet {
 
 	
 	public static void main(String args[]) {
-		PApplet.main(new String[] {"ObjViewer" });
+		PApplet.main(new String[] {"HypertronVelodyne" });
 	}
 
 }

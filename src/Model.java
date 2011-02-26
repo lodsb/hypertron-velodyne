@@ -1,31 +1,27 @@
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Random;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.Map.Entry;
-
-//import Node.NodeType;
-
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.Pair;
-
 import processing.core.PApplet;
 import processing.core.PVector;
 import saito.objloader.Face;
 import saito.objloader.OBJModel;
 import saito.objloader.Segment;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.TreeMap;
 
-public class Model extends OBJModel {
+
+public class Model<T extends Number> extends OBJModel {
 	
 	// should be done somewhere else 
 	public static double speedOfSound = 343.2; // could be altered?
 	
 	public static double epsilon = 1.0/0.0037;// should be frequency dependent
-	public static float airAbsoption(double distance, float sample) {
+	public static <T extends Number> T airAbsoption(double distance, T sample) {
 		//System.out.println("sdfsdf "+(float)(Math.exp(-distance/epsilon))+" s "+sample);
-		float ret = (float)(sample*Math.exp((-1.0)*distance/epsilon));
+		T ret = (T)(((Double)sample)*Math.exp((-1.0)*distance/epsilon));
 		//float ret  = 0;
 		
 		//ret = 0.3f* sample*(float)(1.0/distance);
@@ -70,14 +66,14 @@ public class Model extends OBJModel {
 	
 	/////
 	
-	public class GraphModelData {
+	public class GraphModelData<X extends Number> {
 		public LinkedList<Node> listenerNodes;
 		public LinkedList<Node> sourceNodes;
 		public LinkedList<Double> azimuth;
 		public LinkedList<Double> elevation;
-		public DirectedSparseGraph<Node, Edge> graph;
+		public DirectedSparseGraph<Node, Edge<X>> graph;
 		
-		public GraphModelData(DirectedSparseGraph<Node,Edge> g, LinkedList<Node> s, LinkedList<Node> l) {
+		public GraphModelData(DirectedSparseGraph<Node,Edge<X>> g, LinkedList<Node> s, LinkedList<Node> l) {
 			this.listenerNodes = l;
 			this.sourceNodes = s;
 			this.graph = g;
@@ -91,15 +87,16 @@ public class Model extends OBJModel {
 	private PVector maxBounds;
 	private double  size;
 	
-	private DirectedSparseGraph<Node, Edge> graph = new DirectedSparseGraph<Node, Edge>();
-	
-	private int numVolNodes = 4;
-	private int numWallNodes = 5;
+	//private DirectedSparseGraph<Node, Edge<T>> graph = new DirectedSparseGraph<Node, Edge<T>>();
+	private DirectedSparseGraph<Node, Edge<T>> graph = new DirectedSparseGraph<Node, Edge<T>>();
+
+	private int numVolNodes = 20;
+	private int numWallNodes = 40;
 	
 	private int numSourceNodes = 2;
 	private int numListenerNodes = 1;
 	
-	private double stretchFactor = 2.0;
+	private double stretchFactor = 8.0;
 	
 	private LinkedList<Node> listenerNodes = new LinkedList<Node>();
 	private LinkedList<Node> sourceNodes = new LinkedList<Node>();
@@ -164,12 +161,12 @@ public class Model extends OBJModel {
 		
 	}
 	
-	public DirectedSparseGraph<Node, Edge> getGraph() {
+	public DirectedSparseGraph<Node, Edge<T>> getGraph() {
 		return this.graph;
 	}
 	
-	public GraphModelData getModelData() {
-		return new GraphModelData(this.graph, this.sourceNodes, this.listenerNodes);
+	public GraphModelData<T> getModelData() {
+		return new GraphModelData<T>(this.graph, this.sourceNodes, this.listenerNodes);
 	}
 	
 	private void createGraph() {
@@ -183,7 +180,7 @@ public class Model extends OBJModel {
 		// set pos & buffers for rendering
 		for(Node n: this.listenerNodes) {
 			LinkedList<float[]> azAndEl = new LinkedList<float[]>();
-			Collection<Edge> inEdges = this.graph.getInEdges(n);
+			Collection<Edge<T>> inEdges = this.graph.getInEdges(n);
 			
 			for(Edge e: inEdges) {
 				Node dst = n;

@@ -10,7 +10,7 @@ public class HRTFRenderer {
 	private Node node; 
 	
 	private static int windowLength = 256;
-	private String hrtf_files = "db/CIPIC_hrtf_database/standard_hrir_database/subject_003/";
+	private String hrtf_files = "db/cipic/CIPIC_hrtf_database/standard_hrir_database/subject_003/";
 	
 	private HRIRLoader hrirLoader = new  HRIRLoader(hrtf_files);
 	
@@ -50,6 +50,7 @@ public class HRTFRenderer {
 			double[][][] ir = this.hrirLoader.getImpulseResponses(azAndElev[0],azAndElev[1]);
 			
 			HRTFConv hrtf = new HRTFConv(ir);
+            System.err.println("PROCESSS");
 			
 			float[] tmpRight = new float[samples.length];
 			float[] tmpLeft  = new float[samples.length];

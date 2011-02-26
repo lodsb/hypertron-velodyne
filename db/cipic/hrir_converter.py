@@ -68,6 +68,11 @@ def calcFreqDomain(array):
 	
 	
 def writeArray(complexArray, path, filename, azdeg, eldeg):
+	b = os.path.exists(os.path.join(path,filename+"_"+str(azdeg)+"_"+str(eldeg)+'.txt'));
+
+	if b: 
+	 os.remove(os.path.join(path,filename+"_"+str(azdeg)+"_"+str(eldeg)+'.txt'))
+
 	file = open(os.path.join(path,filename+"_"+str(azdeg)+"_"+str(eldeg)+'.txt'), 'w');		
 	
 	for cmplx in complexArray:	

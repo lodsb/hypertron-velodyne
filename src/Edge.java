@@ -1,18 +1,18 @@
 
-public class Edge {
+public class Edge<T extends Number> {
 	public double dist;
 	
 	public boolean visited = false;
 	public boolean feedforward = true;
 	
-	private DelayLine dl;
+	private DelayLine<T> dl;
 	
 	public Edge(double dist) {
 		this.dist = dist;
 	}
 	
 	public void createDelayLine() {
-		this.dl = new DelayLine(this.dist, ObjViewer.sampleRate);
+		this.dl = new DelayLine<T>(this.dist, HypertronVelodyne.sampleRate);
 	}
 	
 	public DelayLine getDelayLine() {

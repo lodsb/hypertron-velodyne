@@ -1,9 +1,4 @@
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
 
 
 // NOTE:
@@ -89,19 +84,18 @@ public class HRIRLoader {
 			filename = "R_";
 		}
 
-		filename = filename+Math.round(azi)+"_"+ele+".txt";
+        System.out.println("Open file for azimuth: "+azi+" elev: "+ele);
+		filename = filename+((int)(azi*100.0))/100+"_"+ele+".txt";
 
-		System.out.print("Loading "+filename+" ... ");
+		System.out.print("Loading "+filename);
 
 		// is this really the shortest way to do this? its fucking ugly but ought to be 
 		// x-platform
-		File path = new File(this.path);
-		File file = new File(path, filename);
+		File file = new File(this.path + filename);
+        if(file.exists()) System.out.println("...");
 
 		try{
-			FileInputStream fstream = new FileInputStream(file);
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            BufferedReader br = new BufferedReader(new FileReader(file));
 
 			for(int i = 0; i < ret.length; i++) {
 				String strLine;
@@ -121,10 +115,10 @@ public class HRIRLoader {
 				}
 			}
 
-			in.close();
+			br.close();
 
 		}catch (Exception e){
-			System.err.println("Error: " + e.getMessage());
+			e.printStackTrace();
 			ret = null;
 		}
 
@@ -142,35 +136,50 @@ public class HRIRLoader {
 		}
 
 
-		double minAz = Double.MAX_VALUE;
+		double currDiff = Double.MAX_VALUE;
 		double minAzOld = Double.MAX_VALUE;
+        double minAz = Double.MAX_VALUE;
 
 		for(double azDeg: azimuthDeg) {
-			if(Math.signum(azDeg) == Math.signum(azimuth)) {
-				double diff = Math.abs(azDeg-azimuth);
-				if(diff <= minAz) {
-					minAzOld = minAz;
-					minAz = diff;
+            //System.out.println(azimuth+" "+minAz);
+			if(Math.signum(azDeg) == Math.signum(azimuth) || azDeg == 0 ) {
+				double diff = Math.abs(azDeg)-Math.abs(azimuth);
+				if(diff <= currDiff) {
+                    minAzOld = minAz;
+                    minAz = azDeg;
+					currDiff = diff;
 				}
 			}
 		}
+
+        if(minAzOld == Double.MAX_VALUE) {
+            minAzOld = minAz;
+        }
 
 		double minElev = Double.MAX_VALUE;
 		double minElevOld = Double.MAX_VALUE;
+        currDiff = Double.MAX_VALUE;
 
 		for(int i=0; i < 50; i++) {
+            //System.out.println(elevation+" + "+minElev);
+
 			double elevDeg = elevForm(i);
 
 			if(Math.signum(elevDeg) == Math.signum(elevation)) {
-				double diff = Math.abs(elevDeg-elevation);
-				if(diff <= minElev) {
+				double diff = Math.abs(elevDeg)-Math.abs(elevation);
+				if(diff <= currDiff) {
 					minElevOld = minElev;
-					minElev = diff;
+					minElev = elevDeg;
+                    currDiff = diff;
 				}
 			}
 		}
 
-		return new double[][]{new double[]{minAz, minElev}, new double[]{minAzOld, minElevOld}};
+        if(minElevOld == Double.MAX_VALUE) {
+            minElevOld = minElev;
+        }
+
+		return new double[][]{new double[]{minAzOld, minElevOld}, new double[]{minElev, minElevOld}};
 	}
 
 

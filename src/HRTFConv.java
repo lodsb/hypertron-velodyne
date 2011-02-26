@@ -94,6 +94,7 @@ public class HRTFConv {
 			channelR_img[0] = 0.0;		    
 		}	
 
+        this.doSpatial = true;
 	}
 
 	/**
@@ -111,11 +112,8 @@ public class HRTFConv {
 		// separate them into left/right channels	    
 		int index = 0;  //keeps track of window-index.
 		for (int i = 0; i < numWindows; i++) {
-
 			// copy source into left and right channels.
 			separate(buf, index, index+windowLength, channelL, channelR);
-
-			if (doSpatial) {
 
 				// zero imaginary part
 				for (int k = 0; k< channelL_img.length; k++) {
@@ -161,14 +159,6 @@ public class HRTFConv {
 					outL[index + j] = gain*(float)channelL[j];
 					outR[index + j] = gain*(float)channelR[j];
 				}
-			}
-			else {
-				// copy window to output array 
-				for (int j = 0; j < windowLength; j++ ) {
-					outL[index + j] = (float)channelL[j];
-					outR[index + j] = (float)channelR[j];
-				}
-			}
 			index +=  windowLength;
 		}
 	}
