@@ -6,6 +6,7 @@ import saito.objloader.BoundingBox;
 import saito.objloader.Face;
 import saito.objloader.Segment;
 
+import java.util.Collection;
 import java.util.LinkedList;
 
 
@@ -85,7 +86,9 @@ public class HypertronVelodyne extends PApplet {
 	    }
 	    scale(3.0f);
 	    stroke(0,0,255);
-	    for(Edge e: model.getGraph().getEdges()) {
+		Collection<Edge> edges = model.getGraph().getEdges();
+
+	    for(Edge<Double> e: edges) {
 	    	//pushMatrix();
 	    	beginShape(LINES);
 	    	Pair<Node> nodes = model.getGraph().getEndpoints(e);

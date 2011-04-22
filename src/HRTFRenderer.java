@@ -47,6 +47,10 @@ public class HRTFRenderer {
 
 			// setup loc+buf
 			float[] azAndElev = node.azimuthAndElevation.get(channelNr);
+
+			//azAndElev[0] = azAndElev[0] * 180.0f;
+			//azAndElev[1] = azAndElev[1] * 180.0f;
+
 			double[][][] ir = this.hrirLoader.getImpulseResponses(azAndElev[0],azAndElev[1]);
 			
 			HRTFConv hrtf = new HRTFConv(ir);

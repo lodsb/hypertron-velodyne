@@ -1,5 +1,5 @@
 
-public class Edge<T extends Number> {
+public class Edge<T extends Double> {
 	public double dist;
 	
 	public boolean visited = false;

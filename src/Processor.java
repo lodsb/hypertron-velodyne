@@ -5,11 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class Processor<T extends Number> implements Runnable {
+public class Processor<T extends Double> implements Runnable {
 
 	private Model<T> model;
 	private boolean initialized = false;
-	private int samplesToProcess = 5*44100;
+	private int samplesToProcess = 44100*2;
 	
 	public Processor(Model<T> model) {
 		this.model = model;
@@ -79,7 +79,7 @@ public class Processor<T extends Number> implements Runnable {
 	private void processGraph(Model.GraphModelData md) {
 		
 		for(Node node: (LinkedList<Node>) md.sourceNodes) {
-			T inputSample = (T) node.wavFileReader.getNextSample();
+			float inputSample =  node.wavFileReader.getNextSample();
 	/*		
 			if(t < 10) {
 				inputSample = 1.0f;
@@ -87,16 +87,16 @@ public class Processor<T extends Number> implements Runnable {
 				inputSample = 0.0f;
 			}
 	*/
-			distributeSample(md.graph, node, inputSample);
+			distributeSample(md.graph, node, (double)inputSample);
 			//traverseGraph(md.graph, node, inputSample);
 		}
 		
-		for(Node node: (LinkedList<Node>)  md.graph.getVertices()) {
+		for(Node node: (Collection<Node>)  md.graph.getVertices()) {
 			//if(node.type == Node.NodeType.source)
 			//	continue;
 			
-			T sample = (T) 0.0f;
-			for(Edge edge: (List<Edge>) md.graph.getInEdges(node)) {
+			double sample = 0;
+			for(Edge edge: (Collection<Edge>) md.graph.getInEdges(node)) {
 				sample =  sample + edge.getDelayLine().getCurrentSample();
 				edge.visited = true;
 			}
@@ -104,33 +104,33 @@ public class Processor<T extends Number> implements Runnable {
 			distributeSample(md.graph, node, sample);
 		}
 		
-		T outSample = (T) 0;
+		double outSample = 0;
 		for(Node node: (LinkedList<Node>) md.listenerNodes) {
 			int channel = 0;
 			
-			for(Edge edge: (List<Edge>) md.graph.getInEdges(node)) {
-				T c = (T) 1.0f;
-				if(md.graph.getSource(edge).type == Node.NodeType.source)
-					c = (T) 0.1f;
+			for(Edge edge: (Collection<Edge>) md.graph.getInEdges(node)) {
+				double c =  1.0;
+				if(((Node)md.graph.getSource(edge)).type == Node.NodeType.source)
+					c =  0.1;
 				
 				outSample = outSample + c*edge.getDelayLine().getCurrentSample();
 				//if(outSample != 0) System.out.println(outSample+ " chan "+channel+" node "
 				//		+ md.graph.getPredecessorCount(node) );
 				
-				node.appendSample(channel, outSample);
+				node.appendSample(channel, (float)outSample);
 				channel++;
 			}
 		}
 
 
-		for(Edge edge: (List<Edge>) md.graph.getEdges()) {
+		for(Edge edge: (Collection<Edge>) md.graph.getEdges()) {
 			edge.visited = false;
 			edge.getDelayLine().incrementIndex();
 		}
 		
 	}
 	
-	private void distributeSample(DirectedSparseGraph<Node, Edge> graph, Node node, T sample) {
+	private void distributeSample(DirectedSparseGraph<Node, Edge> graph, Node node, double sample) {
 		// distribute energy equally
 		int numOutputs = graph.getOutEdges(node).size();
 		sample = sample/numOutputs;

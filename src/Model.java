@@ -13,15 +13,15 @@ import java.util.Random;
 import java.util.TreeMap;
 
 
-public class Model<T extends Number> extends OBJModel {
+public class Model<T extends Double> extends OBJModel {
 	
 	// should be done somewhere else 
 	public static double speedOfSound = 343.2; // could be altered?
 	
 	public static double epsilon = 1.0/0.0037;// should be frequency dependent
-	public static <T extends Number> T airAbsoption(double distance, T sample) {
+	public static double airAbsoption(double distance, double sample) {
 		//System.out.println("sdfsdf "+(float)(Math.exp(-distance/epsilon))+" s "+sample);
-		T ret = (T)(((Double)sample)*Math.exp((-1.0)*distance/epsilon));
+		double ret = (((Double)sample)*Math.exp((-1.0)*distance/epsilon));
 		//float ret  = 0;
 		
 		//ret = 0.3f* sample*(float)(1.0/distance);
@@ -46,9 +46,11 @@ public class Model<T extends Number> extends OBJModel {
     
     private static float[] azimuthAndElevation(PVector p1, PVector p2) {
     	PVector diff = PVector.sub(p2, p1);
-    	PVector ret = cartesianToPolar(diff);
+    	//PVector ret = cartesianToPolar(diff);
+		float elev = PApplet.atan2(diff.y,diff.x);
+		float azimuth = PApplet.atan2(diff.z,diff.x);
     	
-    	return new float[]{ret.z,ret.y};
+    	return new float[]{azimuth,elev};
     }
     // x = len; y = angleY -> elevation, z = angleZ -> azimuth
     public static PVector cartesianToPolar(PVector theVector) {
@@ -66,7 +68,7 @@ public class Model<T extends Number> extends OBJModel {
 	
 	/////
 	
-	public class GraphModelData<X extends Number> {
+	public class GraphModelData<X extends Double> {
 		public LinkedList<Node> listenerNodes;
 		public LinkedList<Node> sourceNodes;
 		public LinkedList<Double> azimuth;
@@ -90,13 +92,13 @@ public class Model<T extends Number> extends OBJModel {
 	//private DirectedSparseGraph<Node, Edge<T>> graph = new DirectedSparseGraph<Node, Edge<T>>();
 	private DirectedSparseGraph<Node, Edge<T>> graph = new DirectedSparseGraph<Node, Edge<T>>();
 
-	private int numVolNodes = 20;
-	private int numWallNodes = 40;
+	private int numVolNodes = 1;
+	private int numWallNodes = 5;
 	
-	private int numSourceNodes = 2;
+	private int numSourceNodes = 1;
 	private int numListenerNodes = 1;
 	
-	private double stretchFactor = 8.0;
+	private double stretchFactor = 2.0;
 	
 	private LinkedList<Node> listenerNodes = new LinkedList<Node>();
 	private LinkedList<Node> sourceNodes = new LinkedList<Node>();
@@ -113,7 +115,7 @@ public class Model<T extends Number> extends OBJModel {
 		float xmax = Float.MIN_VALUE;
 		float ymax = Float.MIN_VALUE;
 		float zmax = Float.MIN_VALUE;
-		
+
 	    for (int j = 0; j < this.getSegmentCount(); j++) {
 
 	        Segment segment = this.getSegment(j);
