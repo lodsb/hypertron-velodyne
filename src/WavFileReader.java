@@ -48,7 +48,11 @@ public class WavFileReader {
 		audio = Read.audio(filename);
 	}
 	
-	float[] audio;
+	private float[] audio;
+
+	public float[] getAudio() {
+		return this.audio;
+	}
 	
 	int currentBlkStart = 0;
 	private void readNextBlock() {
@@ -76,7 +80,6 @@ public class WavFileReader {
 		float ret;
 		if(index < audio.length) {
 			ret = audio[index];
-			index++;
 			index++;
 			
 		} else {

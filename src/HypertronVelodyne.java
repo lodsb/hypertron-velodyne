@@ -34,7 +34,7 @@ public class HypertronVelodyne extends PApplet {
 	public void setup() {
 	    size(600, 600, P3D);
 
-	    model = new Model(this, "cubic_sphere.obj", "relative", QUADS);
+	    model = new Model(this, "cube_sphere.obj", "relative", QUADS);
 
 	    model.scale(3);
 	    model.translateToCenter();

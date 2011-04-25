@@ -1,3 +1,4 @@
+import davaguine.jeq.core.IIR;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
 import java.util.Collection;
@@ -9,11 +10,21 @@ public class Processor<T extends Double> implements Runnable {
 
 	private Model<T> model;
 	private boolean initialized = false;
-	private int samplesToProcess = 44100*2;
-	
+	public static float SR = 44100f;
+	private int samplesToProcess = (int)SR*5 ;
 	public Processor(Model<T> model) {
 		this.model = model;
-		
+
+		for(Node n: this.model.getGraph().getVertices()) {
+			if(n.type == Node.NodeType.wall) {
+				n.eq = createEqualizer();
+			}
+		}
+
+	}
+
+	private IIR createEqualizer() {
+		return new IIR(10, SR , 1);
 	}
 	
 	// parallelize?! geht evtl weil ja intern nur Sum auf delay lines
@@ -34,13 +45,13 @@ public class Processor<T extends Double> implements Runnable {
 			for(Node node: this.model.getModelData().sourceNodes) {
 				switch(i) {
 				case 0:
-					node.wavFileReader = new WavFileReader(usrDir+"/data/audio/hello.wav");
+					node.wavFileReader = new WavFileReader("/usr/lib/pd-extended/extra/ekext/examples/beauty.wav");
 					break;
 				case 1:
-					node.wavFileReader = new WavFileReader(usrDir +"/data/audio/bier-1min.wav");
+					node.wavFileReader = new WavFileReader("/usr/lib/pd-extended/extra/ekext/examples/drummach.wav");
 					break;
 				default:
-					node.wavFileReader = new WavFileReader(usrDir+"data/audio/explosion.wav");
+					node.wavFileReader = new WavFileReader("/usr/lib/pd-extended/extra/ekext/examples/stink.wav");
 				}
 				i++;
 			}
@@ -116,7 +127,7 @@ public class Processor<T extends Double> implements Runnable {
 				outSample = outSample + c*edge.getDelayLine().getCurrentSample();
 				//if(outSample != 0) System.out.println(outSample+ " chan "+channel+" node "
 				//		+ md.graph.getPredecessorCount(node) );
-				
+
 				node.appendSample(channel, (float)outSample);
 				channel++;
 			}

@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 
-import jass.generators.HRTF;
-import jass.generators.PositionData;
 import jm.util.Write;
 
 
@@ -9,10 +7,15 @@ public class HRTFRenderer {
 	private String filename;
 	private Node node; 
 	
-	private static int windowLength = 256;
-	private String hrtf_files = "db/cipic/CIPIC_hrtf_database/standard_hrir_database/subject_003/";
-	
-	private HRIRLoader hrirLoader = new  HRIRLoader(hrtf_files);
+	//private static int windowLength = 256;
+	//private String hrtf_files = "db/cipic/CIPIC_hrtf_database/standard_hrir_database/subject_009/";
+
+	//private IHRIRLoader hrirLoaderCIPIC = new HRIRLoaderCIPIC(hrtf_files);
+
+	private String hrtf_listen =  "/home/lodsb/Downloads/listen/COMPENSATED/WAV/IRC_1002_C/";
+	private IHRIRLoader hrirLoaderListen = new HRIRLoaderListen(hrtf_listen, "IRC_1002_C_R0195");
+
+	private static IHRIRLoader hrirLoader;
 	
 	public boolean normalizeSum = false;
 	
@@ -20,8 +23,15 @@ public class HRTFRenderer {
 		this.node = listenerNode;
 		this.filename = filename;
 		this.normalizeSum = normalizeSum;
+
+		hrirLoader = hrirLoaderListen;
 	}
-	
+
+
+	public static IHRIRLoader getHRIRRenderer() {
+		return hrirLoader;
+	}
+
 	public void render() {
 		ArrayList<Float>[] channels = node.getChannels();
 		
@@ -54,13 +64,12 @@ public class HRTFRenderer {
 			double[][][] ir = this.hrirLoader.getImpulseResponses(azAndElev[0],azAndElev[1]);
 			
 			HRTFConv hrtf = new HRTFConv(ir);
-            System.err.println("PROCESSS");
 			
 			float[] tmpRight = new float[samples.length];
 			float[] tmpLeft  = new float[samples.length];
 			
 			hrtf.process(samples, tmpLeft, tmpRight);
-			
+
 			for(int i = 0; i < tmpLeft.length; i++) {
 				out[2*i]   += tmpLeft[i];
 				out[2*i+1] += tmpRight[i];
@@ -69,7 +78,7 @@ public class HRTFRenderer {
 			channelNr++;
 			
 		}
-		
+
 		if(normalizeSum == true) {
 			// Normalize
 			float max = Float.MIN_VALUE;

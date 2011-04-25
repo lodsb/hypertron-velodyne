@@ -5,10 +5,8 @@ import java.io.*;
 // the python script for the CIPIC conversion calculates also the FFT and pads the original data
 // to 256 bins;
 
-public class HRIRLoader {
+public class HRIRLoaderCIPIC implements IHRIRLoader {
 	// reimplemented from hrir_data_documentation.pdf
-	
-	private final int fftLen = 256;
 
 	private final double[] azimuthDeg ={-80, -65, -55, -45, -40, -35, 
 			-30,-25,-20,-15,-10,-5,0,5,10,
@@ -30,7 +28,21 @@ public class HRIRLoader {
 	private String path;
 //	private double az;
 //	private double el;
-	public HRIRLoader(String path) {
+
+
+
+	private int fftLen = 256;
+	private int fftPow = 8;
+
+	public int getFFTSize() {
+		return this.fftLen;
+	}
+
+	public int getFFTPower() {
+		return this.fftPow;
+	}
+
+	public HRIRLoaderCIPIC(String path) {
 		this.path = path;
 	}
 	
@@ -45,12 +57,14 @@ public class HRIRLoader {
 		System.err.println("AZ ELEV "+azimuth+" "+elevation);
 		
 		double[][] polarCoords = this.getNearestTwoPolarCoords(azimuth, elevation);
+		System.err.println("AZ ELEV "+azimuth+" "+elevation+ " || "+polarCoords[0][0]+" v "+polarCoords[0][1]);
+		System.err.println("AZ ELEV 2"+azimuth+" "+elevation+ " || "+polarCoords[1][0]+" v "+polarCoords[1][1]);
 
-		double sL1[][] = this.loadIRFile(polarCoords[0][0], polarCoords[0][1], true);
-		double sR1[][] = this.loadIRFile(polarCoords[0][0], polarCoords[0][1], false);
+		double sL1[][] = this.loadIRFileCIPIC(polarCoords[0][0], polarCoords[0][1], true);
+		double sR1[][] = this.loadIRFileCIPIC(polarCoords[0][0], polarCoords[0][1], false);
 
-		double sL2[][] = this.loadIRFile(polarCoords[1][0], polarCoords[1][1], true);
-		double sR2[][] = this.loadIRFile(polarCoords[1][0], polarCoords[1][1], false);
+		double sL2[][] = this.loadIRFileCIPIC(polarCoords[1][0], polarCoords[1][1], true);
+		double sR2[][] = this.loadIRFileCIPIC(polarCoords[1][0], polarCoords[1][1], false);
 		
 		double azDiff = Math.abs(polarCoords[1][0]-polarCoords[0][0]); 
 		double azDiffRatio = Math.abs(polarCoords[1][0])/azDiff;
@@ -59,12 +73,13 @@ public class HRIRLoader {
 		double r[][] = null;
 		
 		// Fixme: recheck!
-		if(sL1 != null && sL2 != null && sR1 != null && sR2 != null) {
+		/*if(sL1 != null && sL2 != null && sR1 != null && sR2 != null) {
 			l = interpolate(sL1, sL2, azDiffRatio);
 			r = interpolate(sR1, sR2, azDiffRatio);
-		}
+		} */
 		
-		return new double[][][]{l,r};
+		//return new double[][][]{l,r};
+		return new double[][][]{sL1,sR1};
 	}
 
 	private double[][] interpolate(double[][] a, double[][] b, double ratio) {
@@ -79,8 +94,8 @@ public class HRIRLoader {
 		return ret;
 	}
 	
-	private double[][] loadIRFile(double azi, double ele, boolean left) {
-		double[][] ret = new double[fftLen][2];
+	private double[][] loadIRFileCIPIC(double azi, double ele, boolean left) {
+		double[][] ret = new double[2][fftLen];
 
 		String filename;
 
@@ -101,9 +116,10 @@ public class HRIRLoader {
         if(file.exists()) System.out.println("...");
 
 		try{
+			int i = 0;
             BufferedReader br = new BufferedReader(new FileReader(file));
 
-			for(int i = 0; i < ret.length; i++) {
+			for(i = 0; i < fftLen; i++) {
 				String strLine;
 
 				if((strLine = br.readLine()) != null)   {
@@ -111,17 +127,15 @@ public class HRIRLoader {
 					String[] strings = strLine.split(" ");
 					
 					// real
-					ret[i][0] = new Double(strings[0]);
+					ret[0][i] = new Double(strings[0]);
 					// imag
-					ret[i][1] = new Double(strings[1]);
-					
-				} else {
-					System.out.println("loaded "+i+" samples");
-					break;
+					ret[1][i] = new Double(strings[1]);
+
 				}
 			}
 
 			br.close();
+			System.out.println("loaded "+i+" samples");
 
 		}catch (Exception e){
 			e.printStackTrace();
@@ -132,13 +146,13 @@ public class HRIRLoader {
 	}
 
 	private double[][] getNearestTwoPolarCoords(double az, double elev) {
-		double azimuth  = this.pValDeg(az);
-		double elevation= this.pValDeg(elev);
+		double azimuth  = this.pValDeg(az) % 360;
+		double elevation= this.pValDeg(elev)% 360;
 
 		if(azimuth < -90.0 || azimuth > 90.0) {
 			// FIXME change channels? do some mapping stuff??
 
-			azimuth = 90.0*Math.signum(azimuth);
+			azimuth = 80.0*Math.signum(azimuth);
 		}
 
 
@@ -147,9 +161,8 @@ public class HRIRLoader {
         double minAz = Double.MAX_VALUE;
 
 		for(double azDeg: azimuthDeg) {
-            //System.out.println(azimuth+" "+minAz);
 			if(Math.signum(azDeg) == Math.signum(azimuth) || azDeg == 0 ) {
-				double diff = Math.abs(azDeg)-Math.abs(azimuth);
+				double diff = Math.abs(azDeg-azimuth);
 				if(diff <= currDiff) {
                     minAzOld = minAz;
                     minAz = azDeg;
@@ -172,7 +185,7 @@ public class HRIRLoader {
 			double elevDeg = elevForm(i);
 
 			if(Math.signum(elevDeg) == Math.signum(elevation)) {
-				double diff = Math.abs(elevDeg)-Math.abs(elevation);
+				double diff = Math.abs(elevDeg -elevation);
 				if(diff <= currDiff) {
 					minElevOld = minElev;
 					minElev = elevDeg;
@@ -185,7 +198,7 @@ public class HRIRLoader {
             minElevOld = minElev;
         }
 
-		return new double[][]{new double[]{minAzOld, minElevOld}, new double[]{minElev, minElevOld}};
+		return new double[][]{new double[]{minAz, minElev}, new double[]{minAzOld, minElevOld}};
 	}
 
 

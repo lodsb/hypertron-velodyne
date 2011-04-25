@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import davaguine.jeq.core.IIR;
 import processing.core.PVector;
 
 
@@ -13,6 +14,8 @@ public class Node {
 	}
 	
 	public WavFileReader wavFileReader;
+
+	public IIR eq = null;
 	
 	public NodeType type;
 	public PVector pos;

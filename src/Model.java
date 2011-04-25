@@ -92,13 +92,13 @@ public class Model<T extends Double> extends OBJModel {
 	//private DirectedSparseGraph<Node, Edge<T>> graph = new DirectedSparseGraph<Node, Edge<T>>();
 	private DirectedSparseGraph<Node, Edge<T>> graph = new DirectedSparseGraph<Node, Edge<T>>();
 
-	private int numVolNodes = 1;
-	private int numWallNodes = 5;
+	private int numVolNodes = 50;
+	private int numWallNodes = 50;
 	
-	private int numSourceNodes = 1;
+	private int numSourceNodes = 2;
 	private int numListenerNodes = 1;
 	
-	private double stretchFactor = 2.0;
+	private double stretchFactor = 1.5;
 	
 	private LinkedList<Node> listenerNodes = new LinkedList<Node>();
 	private LinkedList<Node> sourceNodes = new LinkedList<Node>();
