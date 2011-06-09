@@ -89,13 +89,15 @@ public class HypertronVelodyne extends PApplet {
 		Collection<Edge> edges = model.getGraph().getEdges();
 
 	    for(Edge<Double> e: edges) {
-	    	//pushMatrix();
-	    	beginShape(LINES);
 	    	Pair<Node> nodes = model.getGraph().getEndpoints(e);
 	    	
 	    	Node src = nodes.getFirst();
 	    	Node dst = nodes.getSecond();
-	    	
+
+			if(drawDelaylines) {
+	    	pushMatrix();
+	    	beginShape(LINES);
+
 	    	if(!e.visited) {
 	    		if(src.type==Node.NodeType.wall){
 	    			stroke(255,255,255);
@@ -107,11 +109,14 @@ public class HypertronVelodyne extends PApplet {
 	    	} else {
 	    		stroke(255,0,0);
 	    	}
+
 	    	
 	    	vertex(src.pos.x,src.pos.y,src.pos.z);
 	    	vertex(dst.pos.x,dst.pos.y,dst.pos.z);
 	    	endShape();
-	    	
+			}
+
+
 	    	if(dst.type == Node.NodeType.listener) {
 	    		fill(255,0,0);
 	    		pushMatrix();
@@ -123,7 +128,9 @@ public class HypertronVelodyne extends PApplet {
 	    		drawPoint(src.pos);
 	    		popMatrix();	    		
 	    	}
-	    	//popMatrix();
+			if(drawDelaylines) {
+	    		popMatrix();
+			}
 	    }
 	    
 	    popMatrix();
@@ -207,12 +214,18 @@ public class HypertronVelodyne extends PApplet {
 	    rotY -= (mouseY - pmouseY) * 0.01;
 	}*/
 
+
+	boolean drawDelaylines = false;
 	public void keyPressed() {
 		if(key == 's') {
 			Processor proc = new Processor(this.model);
 			Thread procThread = new Thread(proc);
 			
 			procThread.start();
+		}
+
+		if(key == 'd') {
+			drawDelaylines = drawDelaylines^true;
 		}
 	}
 	

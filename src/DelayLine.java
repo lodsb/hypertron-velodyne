@@ -35,7 +35,6 @@ public class DelayLine<T extends Double> {
 
 	public void addSample(double sample) {
 		// add convolution with material filter here
-		sample = Model.airAbsoption(this.dist, sample);
 		delayLine[currentSampleIndex] = delayLine[currentSampleIndex] + sample;
 	}
 
@@ -52,6 +51,7 @@ public class DelayLine<T extends Double> {
 		}
 
 		//if(outSample != 0) System.out.println(outSample);
+		ret = Model.airAbsoption(this.dist, ret);
 
 		return ret;
 	}
