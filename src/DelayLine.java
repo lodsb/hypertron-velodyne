@@ -19,7 +19,7 @@ public class DelayLine<T extends Double> {
 
 		currentSampleIndex = 0;
 
-		System.out.format("Delay Line #" + (delayLineNr++) + " size %20.2f KiB, length %20.2f s \n", (delayLine.length * 4) / 1024.0, dist);
+		System.out.format("Delay Line #" + (delayLineNr++) + " size %8.2f KiB, length %8.2f s \n", (delayLine.length * 4) / 1024.0, (delayLine.length) / ((double)SR));
 	}
 
 	private void clearDelayLine() {

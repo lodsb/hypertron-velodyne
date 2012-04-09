@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import davaguine.jeq.core.IIR;
@@ -12,7 +13,8 @@ public class Node {
 		listener,
 		source,
 	}
-	
+
+	// TODO: directional forces???
 	public WavFileReader wavFileReader;
 
 	public IIR eq = null;
@@ -21,6 +23,9 @@ public class Node {
 	public PVector pos;
 	
 	public LinkedList<float[]> azimuthAndElevation;
+
+	// quick hack - edge to gain map - vector dependent
+	public HashMap<Object, float[]> edgeGainMap = new HashMap<Object, float[]>();
 	
 	private ArrayList<Float>[] channelData;
 		

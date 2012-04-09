@@ -4,6 +4,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -15,7 +16,7 @@ public class Processor<T extends Double> implements Runnable {
 	private Model<T> model;
 	private boolean initialized = false;
 	public static float SR = 44100f;
-	private int samplesToProcess = (int) SR * 4;
+	private int samplesToProcess = (int) SR * 3;
 
 	private Object lock = new Object();
 
@@ -87,13 +88,13 @@ public class Processor<T extends Double> implements Runnable {
 			for (Node node : this.model.getModelData().sourceNodes) {
 				switch (i) {
 					case 0:
-						node.wavFileReader = new WavFileReader("/usr/lib/pd-extended/extra/ekext/examples/beauty.wav");
+						node.wavFileReader = new WavFileReader("/usr/lib/pd-extended/extra/ekext/examples/stink.wav");
 						break;
 					case 1:
-						node.wavFileReader = new WavFileReader("/usr/lib/pd-extended/extra/ekext/examples/drummach.wav");
+						node.wavFileReader = new WavFileReader("/home/lodsb/rorgan.wav");
 						break;
 					default:
-						node.wavFileReader = new WavFileReader("/usr/lib/pd-extended/extra/ekext/examples/stink.wav");
+						node.wavFileReader = new WavFileReader("/home/lodsb/aero_talk.wav");
 				}
 				i++;
 			}
@@ -167,14 +168,30 @@ public class Processor<T extends Double> implements Runnable {
 
 	private void calcSample(Node node, Model.GraphModelData md) {
 		double sample = 0;
-		for (Edge edge : (Collection<Edge>) md.graph.getInEdges(node)) {
-			synchronized(edge) {
-				sample = sample + edge.getDelayLine().getCurrentSample();
-				edge.visited = true;
+
+		if(node.type != Node.NodeType.volume) {
+			for (Edge edge : (Collection<Edge>) md.graph.getInEdges(node)) {
+				synchronized(edge) {
+					sample = sample + edge.getDelayLine().getCurrentSample();
+					edge.visited = true;
+				}
+			}
+
+			distributeSample(md.graph, node, sample);
+		}else {
+			int i = 0;
+			for (Edge edge : (Collection<Edge>) md.graph.getInEdges(node)) {
+				synchronized(edge) {
+					sample = edge.getDelayLine().getCurrentSample();
+				}
+					distributeSampleVolume(md.graph,node,sample,i);
+
+					i++;
+					edge.visited = true;
+
 			}
 		}
 
-		distributeSample(md.graph, node, sample);
 	}
 
 	int t = 0;
@@ -227,7 +244,12 @@ public class Processor<T extends Double> implements Runnable {
 					c = 0.1;
 
 				*/
-				outSample = outSample + c * edge.getDelayLine().getCurrentSample();
+
+				// why sum outsample??
+				//outSample = c * edge.getDelayLine().getCurrentSample();
+
+				outSample = c * edge.getDelayLine().getCurrentSample();
+
 				//if(outSample != 0) System.out.println(outSample+ " chan "+channel+" node "
 				//		+ md.graph.getPredecessorCount(node) );
 
@@ -244,6 +266,7 @@ public class Processor<T extends Double> implements Runnable {
 
 	}
 
+	Random rnd = new Random();
 	private void distributeSample(DirectedSparseGraph<Node, Edge> graph, Node node, double sample) {
 		// distribute energy equally
 		int numOutputs = graph.getOutEdges(node).size();
@@ -255,11 +278,46 @@ public class Processor<T extends Double> implements Runnable {
 			c = -1.0;
 		} */
 
+		//if(node.type == Node.NodeType.wall) sample=-1.0*sample;
+		if(node.type == Node.NodeType.wall) sample = (0.31*sample);
+
 		for (Edge edge : graph.getOutEdges(node)) {
 			edge.visited = true;
 			synchronized (edge) {
 				edge.getDelayLine().addSample(sample);
 			}
+		}
+	}
+
+
+	private void distributeSampleVolume(DirectedSparseGraph<Node, Edge> graph, Node node, double sample, int edgeIndex) {
+		// distribute energy equally
+		int numOutputs = graph.getOutEdges(node).size();
+		sample = sample / numOutputs;
+
+		/*double c = 1.0;
+
+		if(node.type == Node.NodeType.wall) {
+			c = -1.0;
+		} */
+
+		//if(node.type == Node.NodeType.wall) sample=-1.0*sample;
+		if(node.type == Node.NodeType.wall){
+			sample = (0.31*sample);
+		}
+
+		int i = 0;
+		for (Edge edge : graph.getOutEdges(node)) {
+
+			if(node.type == Node.NodeType.volume) {
+				sample = sample*( node.edgeGainMap.get((Object) edge)[edgeIndex] );
+			}
+			edge.visited = true;
+			synchronized (edge) {
+				edge.getDelayLine().addSample(sample);
+			}
+
+			i++;
 		}
 	}
 }

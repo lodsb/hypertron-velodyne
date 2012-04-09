@@ -22,7 +22,10 @@ public class Model<T extends Double> extends OBJModel {
 
 	public static double airAbsoption(double distance, double sample) {
 		//System.out.println("sdfsdf "+(float)(Math.exp(-distance/epsilon))+" s "+sample);
+		//double ret = (((Double) sample) * Math.exp((-1.0) * distance / epsilon));
+
 		double ret = (((Double) sample) * Math.exp((-1.0) * distance / epsilon));
+
 		//float ret  = 0;
 
 		//ret = 0.3f* sample*(float)(1.0/distance);
@@ -95,13 +98,13 @@ public class Model<T extends Double> extends OBJModel {
 	//private DirectedSparseGraph<Node, Edge<T>> graph = new DirectedSparseGraph<Node, Edge<T>>();
 	private DirectedSparseGraph<Node, Edge<T>> graph = new DirectedSparseGraph<Node, Edge<T>>();
 
-	private int numVolNodes = 50;
-	private int numWallNodes = 50;
+	private int numVolNodes = 40;
+	private int numWallNodes = 40;
 
-	private int numSourceNodes = 2;
+	private int numSourceNodes = 3;
 	private int numListenerNodes = 1;
 
-	private double stretchFactor = 2.5;
+	private double stretchFactor = 5.5;
 
 	private LinkedList<Node> listenerNodes = new LinkedList<Node>();
 	private LinkedList<Node> sourceNodes = new LinkedList<Node>();
@@ -215,6 +218,44 @@ public class Model<T extends Double> extends OBJModel {
 			delayLineLength = delayLineLength + e.dist;
 		}
 
+		for (Node n: this.graph.getVertices()) {
+			Collection<Edge<T>> ins = this.graph.getInEdges(n);
+			Collection<Edge<T>> outs = this.graph.getOutEdges(n);
+
+			if(ins.size() >= 1 && outs.size() >= 1) {
+
+				for(Edge<T> eout: outs) {
+					float[] gains = new float[ins.size()];
+
+					Node outSrcNode = n;
+					Node outDstNode = this.graph.getDest(eout);
+
+					PVector outDir = PVector.sub(outSrcNode.pos, outDstNode.pos);
+
+					int inEdgeCntr = 0;
+					for(Edge<T> ein: ins) {
+						Node inSrcNode = this.graph.getSource(ein);
+						Node inDstNode = this.graph.getDest(ein);
+
+						PVector inDir = PVector.sub(inSrcNode.pos, inDstNode.pos);
+
+						//cosine similarity
+						float g = (PVector.dot(outDir, inDir))/ (outDir.mag()*inDir.mag());
+						g = (g +1)/2;
+
+						gains[inEdgeCntr] = g;
+
+						inEdgeCntr++;
+					}
+
+					n.edgeGainMap.put((Object) eout, gains);
+				}
+
+
+			}
+
+		}
+
 		System.out.println("Overall delay line length: " + delayLineLength + " = " + (delayLineLength / this.speedOfSound) + " seconds\nNum. of Lines: " + graph.getEdgeCount());
 		//System.out.println(graph);
 	}
@@ -229,11 +270,11 @@ public class Model<T extends Double> extends OBJModel {
 
 		float x = -20f;
 		for (int i = 0; i < numSourceNodes; i++) {
-			//Node source = new Node(this.getRandomPointInVolume(), Node.NodeType.source);
-			Node source = new Node(new PVector(20 + x, x, x), Node.NodeType.source);
+			Node source = new Node(this.getRandomPointInVolume(), Node.NodeType.source);
+			//Node source = new Node(new PVector( x, x, x), Node.NodeType.source);
 			graph.addVertex(source);
 			sourceNodes.add(source);
-			x = x + 40;
+			//x = x + 10;
 		}
 	}
 
@@ -244,12 +285,16 @@ public class Model<T extends Double> extends OBJModel {
 
 		double dist;
 		// fully connected graph for the volume mesh, snd-source is feedforward, listner is feedback
+		// not correct since listener->source is also possible?
 		for (Node src : graph.getVertices()) {
 			for (Node dst : graph.getVertices()) {
 				if (src != dst) {
-					dist = (double) Math.abs(PVector.dist(src.pos, dst.pos)) * stretchFactor;
+					dist = distanceFromVectors(src.pos,dst.pos);
 
 					if (src.type == Node.NodeType.source) {
+
+						//if(dst.type == Node.NodeType.listener) continue;
+
 						graph.addEdge(new Edge(dist), src, dst);
 					} else if (src.type == Node.NodeType.listener) {
 						graph.addEdge(new Edge(dist), dst, src);
@@ -279,11 +324,16 @@ public class Model<T extends Double> extends OBJModel {
 		for (Node volNode : graph.getVertices()) {
 			if (volNode.type != Node.NodeType.wall) {
 				for (Face face : faceList) {
+					// not correct, should overwrite only if score for specific node is better
 					wallToVolumeMap.put(directionalDistanceScore(face, volNode.pos),
 						new Pair(new Node(face.getCenter(), Node.NodeType.wall), volNode));
 				}
 			}
 		}
+	}
+
+	private double distanceFromVectors(PVector a, PVector b) {
+		return (double) Math.abs(PVector.dist(a,b)) * stretchFactor;
 	}
 
 	private void createWallMesh(int numFaces) {
@@ -298,11 +348,25 @@ public class Model<T extends Double> extends OBJModel {
 
 			Pair<Node> nodes = e.getValue();
 			Node wall = nodes.getFirst();
-			Node vol = nodes.getSecond();
-			distance = wall.pos.dist(vol.pos);
+			graph.addVertex(wall);
 
-			graph.addEdge(new Edge(distance), wall, vol);
+			Node vol = nodes.getSecond();
+			//graph.addVertex(vol);
+			System.err.println("www "+graph.containsVertex(vol)+ " --- wall "+graph.containsVertex(wall));
+
+			distance = distanceFromVectors(wall.pos, vol.pos);
+			System.err.println("wall node"+distance+" ");
+
+			//graph.addEdge(new Edge(distance), wall, vol);
 			graph.addEdge(new Edge(distance), vol, wall);
+
+			for(Node nv: graph.getVertices()) {
+				if(nv != wall && nv != vol && nv.type != Node.NodeType.wall && nv.type != Node.NodeType.source) {
+					double nvd = distanceFromVectors(wall.pos, nv.pos);
+					graph.addEdge(new Edge(nvd), wall, nv);
+				}
+			}
+
 			cntrAddedFaces++;
 		}
 	}
