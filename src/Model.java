@@ -98,13 +98,13 @@ public class Model<T extends Double> extends OBJModel {
 	//private DirectedSparseGraph<Node, Edge<T>> graph = new DirectedSparseGraph<Node, Edge<T>>();
 	private DirectedSparseGraph<Node, Edge<T>> graph = new DirectedSparseGraph<Node, Edge<T>>();
 
-	private int numVolNodes = 40;
-	private int numWallNodes = 40;
+	private int numVolNodes = 10;
+	private int numWallNodes = 100;
 
 	private int numSourceNodes = 3;
 	private int numListenerNodes = 1;
 
-	private double stretchFactor = 5.5;
+	private double stretchFactor = 1.3;
 
 	private LinkedList<Node> listenerNodes = new LinkedList<Node>();
 	private LinkedList<Node> sourceNodes = new LinkedList<Node>();
@@ -226,6 +226,7 @@ public class Model<T extends Double> extends OBJModel {
 
 				for(Edge<T> eout: outs) {
 					float[] gains = new float[ins.size()];
+					float gsum = 0.0f;
 
 					Node outSrcNode = n;
 					Node outDstNode = this.graph.getDest(eout);
@@ -242,10 +243,16 @@ public class Model<T extends Double> extends OBJModel {
 						//cosine similarity
 						float g = (PVector.dot(outDir, inDir))/ (outDir.mag()*inDir.mag());
 						g = (g +1)/2;
+						System.err.println(g);
 
 						gains[inEdgeCntr] = g;
+						gsum = gsum + g;
 
 						inEdgeCntr++;
+					}
+
+					for(int j=0; j < gains.length; j++) {
+						gains[j] = 5*gains[j]/gsum;
 					}
 
 					n.edgeGainMap.put((Object) eout, gains);

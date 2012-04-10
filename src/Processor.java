@@ -96,7 +96,7 @@ public class Processor<T extends Double> implements Runnable {
 					default:
 						node.wavFileReader = new WavFileReader("/home/lodsb/aero_talk.wav");
 				}
-				i++;
+				i = (i +1)%3;
 			}
 
 			/*
@@ -279,7 +279,7 @@ public class Processor<T extends Double> implements Runnable {
 		} */
 
 		//if(node.type == Node.NodeType.wall) sample=-1.0*sample;
-		if(node.type == Node.NodeType.wall) sample = (0.31*sample);
+		if(node.type == Node.NodeType.wall) sample = (0.91*sample);
 
 		for (Edge edge : graph.getOutEdges(node)) {
 			edge.visited = true;
@@ -303,7 +303,7 @@ public class Processor<T extends Double> implements Runnable {
 
 		//if(node.type == Node.NodeType.wall) sample=-1.0*sample;
 		if(node.type == Node.NodeType.wall){
-			sample = (0.31*sample);
+			sample = (0.91*sample);
 		}
 
 		int i = 0;
