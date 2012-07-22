@@ -13,10 +13,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Processor<T extends Double> implements Runnable {
 
+    /*
+        Properties set from RendererConfig
+     */
+
+    public static float SR = HypertronVelodyne.getRendererConfig().getSampleRate();
+   	private int samplesToProcess = HypertronVelodyne.getRendererConfig().getSamplesToProcess();
+
+
 	private Model<T> model;
 	private boolean initialized = false;
-	public static float SR = 44100f;
-	private int samplesToProcess = (int) SR * 3;
 
 	private Object lock = new Object();
 
@@ -36,6 +42,7 @@ public class Processor<T extends Double> implements Runnable {
 
 	CyclicBarrier barrierEnd = new CyclicBarrier(numThreads + 1);
 	CyclicBarrier barrierStart = new CyclicBarrier(numThreads + 1);
+    CyclicBarrier barrierDistribute = new CyclicBarrier(numThreads + 1);
 	LinkedList<Computation> comps = new LinkedList<Computation>();
 
 	public class Computation implements Runnable {
@@ -85,6 +92,7 @@ public class Processor<T extends Double> implements Runnable {
 			int i = 0;
 			String usrDir = System.getProperty("user.dir");
 
+            /*
 			for (Node node : this.model.getModelData().sourceNodes) {
 				switch (i) {
 					case 0:
@@ -98,6 +106,7 @@ public class Processor<T extends Double> implements Runnable {
 				}
 				i = (i +1)%3;
 			}
+			*/
 
 			/*
 			for(Node node: this.model.getModelData().listenerNodes) {

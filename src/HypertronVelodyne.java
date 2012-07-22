@@ -229,9 +229,73 @@ public class HypertronVelodyne extends PApplet {
 		}
 	}
 	
+    private static RendererConfig rendererConfig;
+
+    public static RendererConfig getRendererConfig() {
+        return rendererConfig;
+    }
+
+    private static SourceListenerConfig sourceListenerConfig;
+
+    public static SourceListenerConfig getSourceListenerConfig() {
+        return sourceListenerConfig;
+    }
+
 
 	
 	public static void main(String args[]) {
+
+        int loadFile = 0;
+        boolean nextRoundLoadFile = false;
+
+        for (String a: args) {
+
+            if(nextRoundLoadFile) {
+                switch(loadFile) {
+                    case 1:
+                        HypertronVelodyne.rendererConfig = new RendererConfig(a);
+                        break;
+                    case 2:
+                        HypertronVelodyne.sourceListenerConfig = new SourceListenerConfig(a);
+                        break;
+                    case 3:
+                        break;
+                    default:
+                }
+
+                nextRoundLoadFile = false;
+            }
+
+            if(a.equals("-rc") && HypertronVelodyne.rendererConfig == null) {
+                loadFile = 1;
+
+                nextRoundLoadFile = true;
+
+            } else if(a.equals("-slc")) {
+                loadFile = 2;
+
+                nextRoundLoadFile = true;
+
+            } else if(a.equals("-mac")) {
+                loadFile = 3;
+            } else {
+                loadFile = 0;
+                nextRoundLoadFile = false;
+            }
+        }
+
+        if(HypertronVelodyne.rendererConfig == null || HypertronVelodyne.rendererConfig.isDefaultConfig()) {
+            HypertronVelodyne.rendererConfig = new RendererConfig();
+            HypertronVelodyne.rendererConfig.saveConfig("defaultRendererConfig.xml");
+        }
+
+        if(HypertronVelodyne.sourceListenerConfig == null || HypertronVelodyne.sourceListenerConfig .isDefaultConfig()) {
+            HypertronVelodyne.sourceListenerConfig  = new SourceListenerConfig();
+            HypertronVelodyne.sourceListenerConfig.saveConfig("defaultSourceListenerConfig.xml");
+        }
+
+
+
 		PApplet.main(new String[] {"HypertronVelodyne" });
 	}
 

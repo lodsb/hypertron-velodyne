@@ -98,13 +98,21 @@ public class Model<T extends Double> extends OBJModel {
 	//private DirectedSparseGraph<Node, Edge<T>> graph = new DirectedSparseGraph<Node, Edge<T>>();
 	private DirectedSparseGraph<Node, Edge<T>> graph = new DirectedSparseGraph<Node, Edge<T>>();
 
-	private int numVolNodes = 10;
-	private int numWallNodes = 100;
 
-	private int numSourceNodes = 3;
-	private int numListenerNodes = 1;
+    /**
+     *
+     * Model variables set by the RendererConfig-File
+     *
+     *
+     **/
+	private int numVolNodes = HypertronVelodyne.getRendererConfig().getNumVolNodes();
+	private int numWallNodes = HypertronVelodyne.getRendererConfig().getNumWallNodes();
+    private int numWallNodesRandom = HypertronVelodyne.getRendererConfig().getNumWallNodesRandom();
+    private double stretchFactor = HypertronVelodyne.getRendererConfig().getStretchFactor();
 
-	private double stretchFactor = 1.3;
+	private int numSourceNodes = HypertronVelodyne.getSourceListenerConfig().getNumSources();
+	private int numListenerNodes = HypertronVelodyne.getSourceListenerConfig().getNumListeners();
+
 
 	private LinkedList<Node> listenerNodes = new LinkedList<Node>();
 	private LinkedList<Node> sourceNodes = new LinkedList<Node>();
@@ -183,6 +191,7 @@ public class Model<T extends Double> extends OBJModel {
 		createVolumeMesh();
 		createWallToVolumeScoreMap();
 		createWallMesh(numWallNodes);
+        createWallMeshRandomized(2*numWallNodes);
 
 		/*for (Node w1 : this.getGraph().getVertices()) {
 			if (w1.type == Node.NodeType.wall) {
@@ -243,7 +252,7 @@ public class Model<T extends Double> extends OBJModel {
 						//cosine similarity
 						float g = (PVector.dot(outDir, inDir))/ (outDir.mag()*inDir.mag());
 						g = (g +1)/2;
-						System.err.println(g);
+						//System.err.println(g);
 
 						gains[inEdgeCntr] = g;
 						gsum = gsum + g;
@@ -268,21 +277,29 @@ public class Model<T extends Double> extends OBJModel {
 	}
 
 	private void createListenerAndSources() {
-		for (int i = 0; i < numListenerNodes; i++) {
-			//Node listener = new Node(this.getRandomPointInVolume(), Node.NodeType.listener);
-			Node listener = new Node(new PVector(0, 0, 0), Node.NodeType.listener);
-			graph.addVertex(listener);
-			listenerNodes.add(listener);
-		}
 
-		float x = -20f;
-		for (int i = 0; i < numSourceNodes; i++) {
-			Node source = new Node(this.getRandomPointInVolume(), Node.NodeType.source);
-			//Node source = new Node(new PVector( x, x, x), Node.NodeType.source);
-			graph.addVertex(source);
-			sourceNodes.add(source);
-			//x = x + 10;
-		}
+        Listener[] listeners = HypertronVelodyne.getSourceListenerConfig().getListeners();
+        Source[] sources = HypertronVelodyne.getSourceListenerConfig().getSources();
+
+        for(Listener l: listeners) {
+            PVector position = new PVector(l.x, l.y, l.z);
+            Node listener = new Node(position, Node.NodeType.listener);
+            listener.name = l.name;
+
+            graph.addVertex(listener);
+            listenerNodes.add(listener);
+        }
+
+        for(Source s: sources) {
+            PVector position = new PVector(s.x, s.y, s.z);
+            Node source = new Node(position, Node.NodeType.source);
+            source.name = s.name;
+
+            //source.wavFileReader = new WavFileReader(s.fileName);
+            graph.addVertex(source);
+            listenerNodes.add(source);
+        }
+
 	}
 
 	private void createVolumeMesh() {
@@ -377,6 +394,47 @@ public class Model<T extends Double> extends OBJModel {
 			cntrAddedFaces++;
 		}
 	}
+
+    private void createWallMeshRandomized(int numFaces) {
+        int nodeCounter = 0;
+
+        while(nodeCounter != numFaces) {
+            int index = (int)Math.floor(random(0, numFaces));
+
+            if(index < 0 || index >= faceList.size()) {
+                continue;
+            }
+
+            Face face = faceList.get(index);
+            //TODO: possible bug, lookup if wall node already exists
+            PVector center = face.getCenter();
+
+
+            Node wall = null;
+            for (Node n: graph.getVertices()) {
+                if(n.pos.x == center.x && n.pos.y == center.y && n.pos.z == center.z) {
+                    wall = n;
+                }
+            }
+
+            if(wall == null) {
+                wall = new Node(face.getCenter(), Node.NodeType.wall);
+                graph.addVertex(wall);
+            }
+
+            Collection<Node> c = graph.getVertices();
+
+            for(Node nv: c) {
+         			if(nv != wall && nv.type != Node.NodeType.wall && nv.type != Node.NodeType.source) {
+                        double nvd = distanceFromVectors(wall.pos, nv.pos);
+                        graph.addEdge(new Edge(nvd), wall, nv);
+                    }
+         	}
+
+            nodeCounter++;
+
+        }
+    }
 
 
 	private double directionalDistanceScore(Face f, PVector pos) {
